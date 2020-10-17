@@ -50,8 +50,8 @@ class Restaurants(db.Model):
     wait_time = db.Column(db.Integer)
     phone = db.Column(db.String)
     # locations are geographic coordinates
-    loc_X = db.Column(db.Integer, nullable=False)
-    loc_Y = db.Column(db.Integer, nullable=False)
+    loc_x = db.Column(db.Integer, nullable=False)
+    loc_y = db.Column(db.Integer, nullable=False)
 
 
 class Tags(db.Model):
@@ -104,3 +104,18 @@ class GroupMembers(db.Model):
     person = db.Column(db.String)
     """Whether or not someone has voted 1 == True, 0 == False)"""
     voted = db.Column(db.Integer) 
+
+# Voting
+class TopChoices(db.Model):
+    __tablename__ = "top_choices"
+    group = db.Column(db.Integer)
+    res = db.Column(db.name)
+    rating = db.Column(db.Integer)
+
+
+class BordaVote(db.Model):
+    __tablename__ = "borda_vote"
+    group = db.Column(db.Integer)
+    # Ranking from 0-4, with 0 being most preferred and 4 the least
+    rank = db.Column(db.Integer, nullable=False)
+    restaurant = db.Column(db.Integer, nullable=False)

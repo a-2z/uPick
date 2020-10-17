@@ -117,7 +117,17 @@ def invite_member():
     grp = data["group"]
     user = data["user"]
     try:
-        return success_response(dao.invite_member())
+        return success_response(dao.invite_member(grp,user))
+    except:
+        return failure_response("Please try again.")
+
+@app.route('/groups/join/', methods=['POST'])
+def join_group():
+    data = ju(request.data)
+    grp = data["group"]
+    user = data["user"]
+    try:
+        return success_response(dao.invite_member(grp,user))
     except:
         return failure_response("Please try again.")
 
@@ -169,6 +179,45 @@ def delete_user():
         return success_response(dao.delete_user(user))
     except:
         return failure_response("User not in group.")
+
+#Private routes
+@app.route('/restaurants/',methods=['POST'])
+def add_restaurant():
+    data = ju(request.data)
+    name = data["name"]
+    price = data["price"]
+    image = data["image"]
+    rating = data["rating"]
+    description = data["description"]
+    wait_time = data["wait_time"]
+    phone = data["phone"]
+    loc_x = data["loc_x"]
+    loc_y = data["loc_y"]
+    try: 
+        return success_response(dao.make_restaurant(name,price,image,rating,description,wait_time,phone,loc_x,loc_y))
+    except:
+        return failure_response("Please try again.")
+
+@app.route('/restaurants/tags/', methods=['POST'])
+def add_tags():
+    data = ju(request.data)
+    res_id = data["id"]
+    tags = data["tags"]
+    try: 
+        return success_response(dao.add_res_tags(res_id,tags))
+    except:
+        return failure_response("Please try again.")
+
+@app.route('/restaurants/', methods=['DELETE'])
+def delete_restaurant():
+    data = ju(request.data)
+    res_id = data["id"]
+    try: 
+        return success_response(dao.delete_restaurant(res_id))
+    except:
+        return failure_response("Please try again.")
+
+
 
 
 
