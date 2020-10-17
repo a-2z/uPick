@@ -1,4 +1,4 @@
-package com.upick.upick.fragments
+package com.upick.upick.fragments.login
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -8,45 +8,69 @@
     <fragment
         android:id="@+id/DashboardFragment"
         android:name="com.upick.upick.fragments.DashboardFragment"
-        android:label="Dashboard!!!!!!!"
+        android:label="uPick"
         tools:layout="@layout/fragment_dashboard">
         <action
-            android:id="@+id/action_FirstFragment_to_templateFragment"
-            app:destination="@id/templateFragment" />
+            android:id="@+id/action_DashboardFragment_to_hostSurveyFragment"
+            app:destination="@id/createGroupFragment" />
     </fragment>
     <fragment
-        android:id="@+id/templateFragment"
-        android:name="com.upick.upick.fragments.TemplateFragment"
-        android:label="TemplateFragment"
-        tools:layout="@layout/fragment_template" />
-    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.upick.upick.fragments.LoginFragment"
+        android:name="com.upick.upick.fragments.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_DashboardFragment"
-            app:destination="@id/DashboardFragment" />
+            app:destination="@id/DashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.upick.upick.fragments.SignUpFragment"
+        android:name="com.upick.upick.fragments.login.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_DashboardFragment"
-            app:destination="@id/DashboardFragment" />
+            app:destination="@id/DashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/startUpFragment"
-        android:name="com.upick.upick.fragments.StartUpFragment"
+        android:name="com.upick.upick.fragments.login.StartUpFragment"
         android:label="StartUpFragment"
         tools:layout="@layout/fragment_start_up">
         <action
             android:id="@+id/action_startUpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/createGroupFragment"
+        android:name="com.upick.upick.fragments.groupformation.CreateGroupFragment"
+        android:label="Select Date and Time..."
+        tools:layout="@layout/fragment_create_group">
+        <action
+            android:id="@+id/action_createGroupFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="com.upick.upick.fragments.groupformation.SurveyFragment"
+        android:label="Quick Survey!"
+        tools:layout="@layout/fragment_survey">
+        <action
+            android:id="@+id/action_surveyFragment_to_groupLobbyFragment"
+            app:destination="@id/groupLobbyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupLobbyFragment"
+        android:name="com.upick.upick.fragments.groupformation.GroupLobbyFragment"
+        android:label=""
+        tools:layout="@layout/fragment_group_lobby" />
 </navigation>

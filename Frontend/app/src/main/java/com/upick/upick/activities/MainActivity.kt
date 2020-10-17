@@ -13,24 +13,24 @@ import com.upick.upick.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    internal lateinit var mainActivityBinding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
 
         setTheme(R.style.AppTheme_NoActionBar)  // To remove splash
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        setContentView(mainActivityBinding.root)
+        setSupportActionBar(mainActivityBinding.toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(setOf(R.id.DashboardFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.toolbar.visibility = when (destination.id) {
+            mainActivityBinding.toolbar.visibility = when (destination.id) {
                 R.id.startUpFragment, R.id.loginFragment, R.id.signUpFragment -> View.GONE
                 else -> View.VISIBLE
             }
