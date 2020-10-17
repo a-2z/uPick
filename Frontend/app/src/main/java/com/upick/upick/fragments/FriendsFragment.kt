@@ -2,9 +2,9 @@ package com.upick.upick.fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.upick.upick.R
 import com.upick.upick.databinding.FragmentFriendsBinding
 
@@ -51,7 +51,7 @@ class FriendsFragment : Fragment() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                Toast.makeText(requireContext(), "Settings", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(FriendsFragmentDirections.actionFriendsFragmentToSettingsFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

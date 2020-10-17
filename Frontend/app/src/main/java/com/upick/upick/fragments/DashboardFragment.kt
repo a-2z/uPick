@@ -2,7 +2,6 @@ package com.upick.upick.fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -48,7 +47,7 @@ class DashboardFragment : Fragment() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                Toast.makeText(requireContext(), "Settings", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment())
                 true
             }
             R.id.action_friends -> {

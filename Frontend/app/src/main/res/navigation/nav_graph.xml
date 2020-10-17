@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_DashboardFragment_to_friendsFragment"
             app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -118,5 +121,13 @@
         <action
             android:id="@+id/action_friendsFragment_to_surveyFragment"
             app:destination="@id/surveyFragment" />
+        <action
+            android:id="@+id/action_friendsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:name="com.upick.upick.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
