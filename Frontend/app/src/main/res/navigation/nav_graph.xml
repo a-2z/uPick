@@ -19,4 +19,5 @@
         android:name="com.upick.upick.fragments.TemplateFragment"
         android:label="TemplateFragment"
         tools:layout="@layout/fragment_template" />
+    <fragment android:id="@+id/placeholder" />
 </navigation>
