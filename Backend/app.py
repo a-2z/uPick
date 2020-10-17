@@ -61,7 +61,7 @@ def get_group(group):
         return failure_response("Group not found")
 
 
-@app.route('invites/<user>', methods=['GET'])
+@app.route('/invites/<user>', methods=['GET'])
 def check_invites(user):
     try:
         return success_response(dao.get_invites)
@@ -77,7 +77,7 @@ def new_user():
     if dao.authenticate(usr, pwd):
         success_response(usr)
     else:
-        failure_response(
+        failu   re_response(
             "Username has already been taken or invalid password.")
 
 @app.route('/signin/', methods=['POST'])
@@ -150,7 +150,7 @@ def submit_survey():
     except:
         return failure_response("Please try again.")
 
-@app.route('/survey/',methods=['POST'])
+@app.route('/vote/',methods=['POST'])
 def place_vote():
     data = ju(request.data)
     user = data["user"]
@@ -162,11 +162,16 @@ def place_vote():
 
 @app.route('/groups/',methods=['DELETE'])
 def leave_group():
+    """Leave a group if not host; delete it if host leaves"""
     data = ju(request.data)
     user = data["user"]
     group = data["group"]
+    delete = data["delete"]
     try:
-        return success_response(dao.leave_group(user, group))
+        if not delete:
+            return success_response(dao.leave_group(user, group))
+        else:
+            return success_response(dao.delete_group(group))
     except:
         return failure_response("User not in group.")
 
@@ -198,6 +203,17 @@ def add_restaurant():
     except:
         return failure_response("Please try again.")
 
+@app.route('/ingredients/',methods=['POST'])
+def add_ingredients():
+    data = ju(request.data)
+    name = data["ingredients"]
+    try: 
+        return success_response(dao.add_ingredient(name))
+    except:
+        return failure_response("Please try again.")
+
+
+
 @app.route('/restaurants/tags/', methods=['POST'])
 def add_tags():
     data = ju(request.data)
@@ -216,6 +232,8 @@ def delete_restaurant():
         return success_response(dao.delete_restaurant(res_id))
     except:
         return failure_response("Please try again.")
+
+
 
 
 

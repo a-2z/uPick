@@ -107,6 +107,14 @@
 		<h4>Out: {"success": bool, "data": user}</h4>
 	</div>
 	<div style="background-color: grey;">
+		<h1>Route: /groups/join/</h1>
+		<h2>Description: Join a group if invite exists
+		</h2>
+		<h3>Method Type: POST</h3>
+		<h4>In: {"group": int, "user": string}</h4>
+		<h4>Out: {"success": bool, "data": user}</h4>
+	</div>
+	<div style="background-color: grey;">
 		<h1>Route: /survey/</h1>
 		<h2>Description: Respond to survey questions</h2>
 		<h3>Method Type: POST</h3>
@@ -129,9 +137,11 @@
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /groups/</h1>
-		<h2>Description: Leave a group</h2>
+		<h2>Description: Leave a group. If the host leaves, the group is deleted;
+			set "delete" to True if this is the case.
+		</h2>
 		<h3>Method Type: DELETE</h3>
-		<h4>In: {"user": str, "group": str}</h4>
+		<h4>In: {"user": str, "group": str, "delete": bool}</h4>
 		<h4>Out: {"success": bool, "data": "You left the group."} </h4>
 	</div>
 	<div style="background-color: grey;">

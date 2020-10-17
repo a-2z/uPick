@@ -30,13 +30,6 @@ class Tags(db.Model):
     name = db.Column(db.Integer, nullable=False)
     tag = db.Column(db.Integer, nullable=False)
 
-
-class Ingredients(db.Model):
-    __tablename__ = "ingredients"
-    id = db.Column(db.Integer, primary_key=True)
-    ingredient = db.Column(db.String, nullable=False)
-
-
 class Restaurants(db.Model):
     __tablename__ = "restaurants"
     res_id = db.Column(db.Integer, primary_key=True)
@@ -53,17 +46,6 @@ class Restaurants(db.Model):
     loc_x = db.Column(db.Integer, nullable=False)
     loc_y = db.Column(db.Integer, nullable=False)
 
-
-class Tags(db.Model):
-    __tablename__ = "tags"
-    """Tags for categories of food"""
-    id = db.Column(db.Integer, primary_key=True)
-    # Category is res for restaurants and grp for groups
-    category = db.Column(db.String, nullable=False, default="res")
-    name = db.Column(db.Integer, nullable=False)
-    tag = db.Column(db.Integer, nullable=False)
-
-
 class Ingredients(db.Model):
     __tablename__ = "ingredients"
     id = db.Column(db.Integer, primary_key=True)
@@ -72,7 +54,7 @@ class Ingredients(db.Model):
 
 class Restrictions(db.Model):
     """People are category ppl, restaurants are res, and groups are grp"""
-    __tablename__ = "ingredients"
+    __tablename__ = "restrictions"
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String, nullable=False, default="ppl")
     name = db.Column(db.String, nullable=False)
@@ -100,21 +82,24 @@ class Invitations(db.Model):
 
 class GroupMembers(db.Model):
     __tablename__ = "membership"
-    group_id = db.Column(db.Integer)
-    person = db.Column(db.String)
+    membership_id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, nullable=False)
+    person = db.Column(db.String, nullable=False)
     """Whether or not someone has voted 1 == True, 0 == False)"""
     voted = db.Column(db.Integer) 
 
 # Voting
 class TopChoices(db.Model):
     __tablename__ = "top_choices"
-    group = db.Column(db.Integer)
-    res = db.Column(db.name)
-    rating = db.Column(db.Integer)
+    vote_id = db.Column(db.Integer, primary_key=True)
+    group = db.Column(db.Integer, nullable=False)
+    res = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
 
 
 class BordaVote(db.Model):
     __tablename__ = "borda_vote"
+    vote_id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer)
     # Ranking from 0-4, with 0 being most preferred and 4 the least
     rank = db.Column(db.Integer, nullable=False)
