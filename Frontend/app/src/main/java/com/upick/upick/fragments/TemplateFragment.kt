@@ -1,0 +1,27 @@
+package com.upick.upick.fragments
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.upick.upick.databinding.FragmentTemplateBinding
+
+// This template doesn't serve any purpose apart from provide some starting code for new fragments
+class TemplateFragment : Fragment() {
+
+    private lateinit var binding: FragmentTemplateBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentTemplateBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Do the rest of fragment preparation here.
+    }
+}
