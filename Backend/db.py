@@ -12,6 +12,7 @@ class User(db.Model):
     hash_pw = db.Column(db.String, nullable=False)
 
 
+
 class Friends(db.Model):
     __tablename__ = "friends"
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +65,8 @@ class Restrictions(db.Model):
 class Group(db.Model):
     __tablename__ = "groups"
     group_id = db.Column(db.Integer, primary_key=True)
+    host = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable = False)
     date = db.Column(db.String, nullable=False)
     num_members = db.Column(db.Integer, default=1)
     tot_price = db.Column(db.Integer, nullable=False, default=0)

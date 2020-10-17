@@ -64,7 +64,7 @@
 		<h2>Description: Get all invitations to groups</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
-		<h4>Out: {"success: bool", "invitations": [gr1,gr2,..]}</h4>
+		<h4>Out: {"success: bool", "data": {"invitations": [gr1,gr2,..]}}</h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /users/</h1>
@@ -88,14 +88,14 @@
 		</h2>
 		<h3>Method Type: POST</h3>
 		<h4>In: {"friend1": str, "friend2": str}</h4>
-		<h4>Out: {"success": bool, "added": friend</h4>
+		<h4>Out: {"success": bool, "data": {"added": friend}</h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /create/</h1>
 		<h2>Description: Create a new group</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"host": str, "date": str}</h4>
-		<h4>Out: {"success": bool,</h4>
+		<h4>In: {"host": str, "name": str, "date": str}</h4>
+		<h4>Out: {"success": bool, "data": host</h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /groups/</h1>

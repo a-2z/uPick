@@ -56,7 +56,7 @@ def get_pending(user):
 @app.route('/groups/<group>', methods=['GET'])
 def get_group(group):
     try:
-        return success_response(dao.get_group)
+        return success_response(dao.get_group(group))
     except:
         return failure_response("Group not found")
 
@@ -64,7 +64,7 @@ def get_group(group):
 @app.route('/invites/<user>', methods=['GET'])
 def check_invites(user):
     try:
-        return success_response(dao.get_invites)
+        return success_response(dao.get_invites(user))
     except:
         return failure_response("Group not found")
 
@@ -74,11 +74,10 @@ def new_user():
     data = ju(request.data)
     usr = data["usr"]
     pwd = data["pwd"]
-    if dao.authenticate(usr, pwd):
-        success_response(usr)
-    else:
-        failu   re_response(
-            "Username has already been taken or invalid password.")
+    try:
+        return success_response(dao.create_user(usr,pwd))
+    except:
+        return failure_response("Invalid username or password.")
 
 @app.route('/signin/', methods=['POST'])
 def login():
@@ -105,6 +104,7 @@ def accept_friend():
 def create_group():
     data = ju(request.data)
     host = data["host"]
+    group_name = data["name"]
     date = data["date"]
     try:
         return success_response(dao.create_group(host, date))
@@ -127,7 +127,7 @@ def join_group():
     grp = data["group"]
     user = data["user"]
     try:
-        return success_response(dao.invite_member(grp,user))
+        return success_response(dao.join_group(grp,user))
     except:
         return failure_response("Please try again.")
 
@@ -199,7 +199,11 @@ def add_restaurant():
     loc_x = data["loc_x"]
     loc_y = data["loc_y"]
     try: 
-        return success_response(dao.make_restaurant(name,price,image,rating,description,wait_time,phone,loc_x,loc_y))
+        return success_response(
+            dao.make_restaurant(
+                name, price, image, rating, description, wait_time, phone, 
+                loc_x,loc_y)
+                )
     except:
         return failure_response("Please try again.")
 
