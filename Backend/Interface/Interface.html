@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="stylesheet" href = "interface.css">
+	<link rel="stylesheet" href="interface.css">
 	<title>uPick Interface</title>
 </head>
 
@@ -15,9 +16,9 @@
 		<h4>Out: {"success" : bool, <br>
 			"data": <br>
 			{<br>"id": user, <br> "friends": ["f1","f2"...],<br> "restrictions": [id1,id2,...]<br>}<br>
-		} </h4>
+			} </h4>
 	</div>
-<div style="background-color: grey;">
+	<div style="background-color: grey;">
 		<h1>Route: /pending/&ltuser&gt</h1>
 		<h2>Description: Get list of friend requests sent and received</h2>
 		<h3>Method Type: GET</h3>
@@ -26,7 +27,7 @@
 			{"success": bool,<br>
 			"data": <br>{<br>
 			"sent": ["usr1","usr2",...],<br>
-		"received": ["usr1","usr2",...]<br>}<br>}
+			"received": ["usr1","usr2",...]<br>}<br>}
 		</h4>
 	</div>
 	<div style="background-color: grey;">
@@ -36,9 +37,9 @@
 		<h4>In: N/A</h4>
 		<h4>Out:<br> {"success": bool,<br>
 			"data": {
-			"group" : int, 
+			"group" : int,
 			"members": ["usr1","usr2",...],<br>
-			"survey_complete": bool,<br> 
+			"survey_complete": bool,<br>
 			"top_choices":<br> [{"name": str,<br>"phone_number": str, <br>
 			"description": str,<br>
 			"image_url": str,<br>
@@ -49,9 +50,9 @@
 			},...]<br>
 			"voting_complete": bool, <br>
 			"final_choice": <br>{"name": str,<br>"phone_number": str,<br>
-		"description": str,<br>
-		"image_url": str,<br>
-		"rating": int,<br>
+			"description": str,<br>
+			"image_url": str,<br>
+			"rating": int,<br>
 			"wait time": int,<br>
 			"location_x" : float,<br>
 			"location_y" : float<br>}<br>}<br>}
@@ -92,7 +93,7 @@
 		<h1>Route: /create/</h1>
 		<h2>Description: Create a new group</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"host": str}</h4>
+		<h4>In: {"host": str, "date": str}</h4>
 		<h4>Out: {"success": bool,</h4>
 	</div>
 	<div style="background-color: grey;">
@@ -110,12 +111,12 @@
 		<h3>Method Type: POST</h3>
 		<h4>In: {"user": str,<br>
 			"location_x": float,<br>
-		"location_y": float,<br>
-	"price": int,<br>
-	"distance": int,<br>
-	"time": int,<br>
-	"preferences": [int, int, int]}
-</h4>
+			"location_y": float,<br>
+			"price": int,<br>
+			"distance": int,<br>
+			"time": int,<br>
+			"preferences": [int, int, int]}
+		</h4>
 		<h4>Out: {"success": bool, "data": "Responses submitted"} </h4>
 	</div>
 	<div style="background-color: grey;">
@@ -143,4 +144,5 @@
 		<h4>Out: </h4>
 	</div>         -->
 </body>
+
 </html>

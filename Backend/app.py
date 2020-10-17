@@ -68,7 +68,6 @@ def check_invites(user):
     except:
         return failure_response("Group not found")
 
-
 @app.route('/users/', methods=['POST'])
 def new_user():
     """Create a new user account"""
@@ -91,6 +90,28 @@ def login():
         success_response("You are logged in.")
     else:
         failure_response("Invalid username or password.")
+
+@app.route('/invites/', methods=['POST'])
+def accept_friend():
+    data = ju(request.data)
+    f1 = data["friend1"]
+    f2 = data["friend2"]
+    try:
+        return success_response(dao.accept_friend(f1, f2))
+    except:
+        return failure_response("User not found")
+
+@app.route('/create/', methods=['POST'])
+def create_group():
+    data = ju(request.data)
+    host = data["host"]
+    try:
+        return success_response(dao.create_group)
+    except:
+        return failure_response("Please try again")
+
+@app.route('/')
+
 
 
 if __name__ == "__main__":
