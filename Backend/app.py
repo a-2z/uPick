@@ -37,5 +37,61 @@ def ju(jason):
 
 
 # Routes go here
+@app.route('/users/<user>', methods=['GET'])
+def get_users(user):
+    try:
+        return success_response(dao.get_user(user))
+    except:
+        return failure_response("Please try again.")
+
+
+@app.route('/pending/<user>', methods=['GET'])
+def get_pending(user):
+    try:
+        return success_response(dao.get_pending(user))
+    except:
+        return failure_response("User not found.")
+
+
+@app.route('/groups/<group>', methods=['GET'])
+def get_group(group):
+    try:
+        return success_response(dao.get_group)
+    except:
+        return failure_response("Group not found")
+
+
+@app.route('invites/<user>', methods=['GET'])
+def check_invites(user):
+    try:
+        return success_response(dao.get_invites)
+    except:
+        return failure_response("Group not found")
+
+
+@app.route('/users/', methods=['POST'])
+def new_user():
+    """Create a new user account"""
+    data = ju(request.data)
+    usr = data["usr"]
+    pwd = data["pwd"]
+    if dao.authenticate(usr, pwd):
+        success_response(usr)
+    else:
+        failure_response(
+            "Username has already been taken or invalid password.")
+
+@app.route('/signin/', methods=['POST'])
+def login():
+    """Sign in"""
+    data = ju(request.data)
+    usr = data["usr"]
+    pwd = data["pwd"]
+    if dao.authenticate(usr, pwd):
+        success_response("You are logged in.")
+    else:
+        failure_response("Invalid username or password.")
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
