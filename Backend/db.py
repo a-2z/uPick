@@ -52,3 +52,28 @@ class Restaurants(db.Model):
     # locations are geographic coordinates
     loc_X = db.Column(db.Integer, nullable=False)
     loc_Y = db.Column(db.Integer, nullable=False)
+
+
+class Tags(db.Model):
+    __tablename__ = "tags"
+    """Tags for categories of food"""
+    id = db.Column(db.Integer, primary_key=True)
+    # Category is res for restaurants and grp for groups
+    category = db.Column(db.String, nullable=False, default="res")
+    name = db.Column(db.Integer, nullable=False)
+    tag = db.Column(db.Integer, nullable=False)
+
+
+class Ingredients(db.Model):
+    __tablename__ = "ingredients"
+    id = db.Column(db.Integer, primary_key=True)
+    ingredient = db.Column(db.String, nullable=False)
+
+
+class Restrictions(db.Model):
+    """People are category ppl, restaurants are res, and groups are grp"""
+    __tablename__ = "ingredients"
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String, nullable=False, default="ppl")
+    name = db.Column(db.String, nullable=False)
+    ingr_id = db.Column(db.Integer, nullable=False)
