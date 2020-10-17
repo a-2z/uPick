@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/DashboardFragment">
+    app:startDestination="@id/startUpFragment">
 
     <fragment
         android:id="@+id/DashboardFragment"
@@ -19,5 +19,34 @@
         android:name="com.upick.upick.fragments.TemplateFragment"
         android:label="TemplateFragment"
         tools:layout="@layout/fragment_template" />
-    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.upick.upick.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.upick.upick.fragments.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_signUpFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startUpFragment"
+        android:name="com.upick.upick.fragments.StartUpFragment"
+        android:label="StartUpFragment"
+        tools:layout="@layout/fragment_start_up">
+        <action
+            android:id="@+id/action_startUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

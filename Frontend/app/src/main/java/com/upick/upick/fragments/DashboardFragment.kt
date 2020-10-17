@@ -1,11 +1,10 @@
 package com.upick.upick.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.upick.upick.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -21,8 +20,6 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(DashboardFragmentDirections.actionFirstFragmentToTemplateFragment())
-        }
+        binding.mainTextView.text = "You're at the screen after login!"
     }
 }

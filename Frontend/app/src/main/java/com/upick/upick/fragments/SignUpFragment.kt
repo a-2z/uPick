@@ -5,24 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.upick.upick.databinding.FragmentTemplateBinding
+import com.upick.upick.databinding.FragmentSignUpBinding
 
-// This template doesn't serve any purpose apart from provide some starting code for new fragments
-class TemplateFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentTemplateBinding
+    private lateinit var binding: FragmentSignUpBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTemplateBinding.inflate(inflater, container, false)
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.mainTextView.text = "TemplateFragment - this is as simple as it gets!"
+        binding.mainTextView.text = "You're signing up!"
         // Do the rest of fragment preparation here.
     }
 }
