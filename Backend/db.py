@@ -77,3 +77,30 @@ class Restrictions(db.Model):
     category = db.Column(db.String, nullable=False, default="ppl")
     name = db.Column(db.String, nullable=False)
     ingr_id = db.Column(db.Integer, nullable=False)
+
+#Groups
+class Group(db.Model):
+    __tablename__ = "groups"
+    group_id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String, nullable=False)
+    num_members = db.Column(db.Integer, default=1)
+    tot_price = db.Column(db.Integer, nullable=False, default=0)
+    #distance in miles
+    tot_dist = db.Column(db.Integer, nullable=False, default=0)
+    tot_time = db.Column(db.Integer, nullable=False, default=0)
+    pick = db.Column(db.String, nullable=False, default="none")
+
+
+class Invitations(db.Model):
+    __tablename__ = "invitations"
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String, nullable=False)
+    group = db.Column(db.Integer, nullable=False)
+
+
+class GroupMembers(db.Model):
+    __tablename__ = "membership"
+    group_id = db.Column(db.Integer)
+    person = db.Column(db.String)
+    """Whether or not someone has voted 1 == True, 0 == False)"""
+    voted = db.Column(db.Integer) 

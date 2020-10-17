@@ -37,7 +37,8 @@
 		<h4>In: N/A</h4>
 		<h4>Out:<br> {"success": bool,<br>
 			"data": {
-			"group" : int,
+			"group" : int,<br>
+			"date": str,<br>
 			"members": ["usr1","usr2",...],<br>
 			"survey_complete": bool,<br>
 			"top_choices":<br> [{"name": str,<br>"phone_number": str, <br>
@@ -127,10 +128,17 @@
 		<h4>Out: {"success": bool, "data": "Vote submitted."} </h4>
 	</div>
 	<div style="background-color: grey;">
-		<h1>Route: /groups/&ltuser&gt</h1>
+		<h1>Route: /groups/</h1>
 		<h2>Description: Leave a group</h2>
 		<h3>Method Type: DELETE</h3>
-		<h4>In: {"group": str}</h4>
+		<h4>In: {"user": str, "group": str}</h4>
+		<h4>Out: {"success": bool, "data": "You left the group."} </h4>
+	</div>
+	<div style="background-color: grey;">
+		<h1>Route: /users/</h1>
+		<h2>Description: Delete a user from the database.</h2>
+		<h3>Method Type: DELETE</h3>
+		<h4>In: {"user": str, "pwd": str,}</h4>
 		<h4>Out: {"success": bool, "data": "You left the group."} </h4>
 	</div>
 

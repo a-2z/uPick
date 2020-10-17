@@ -105,12 +105,73 @@ def accept_friend():
 def create_group():
     data = ju(request.data)
     host = data["host"]
+    date = data["date"]
     try:
-        return success_response(dao.create_group)
+        return success_response(dao.create_group(host, date))
     except:
         return failure_response("Please try again")
 
-@app.route('/')
+@app.route('/groups/', methods=['POST'])
+def invite_member():
+    data = ju(request.data)
+    grp = data["group"]
+    user = data["user"]
+    try:
+        return success_response(dao.invite_member())
+    except:
+        return failure_response("Please try again.")
+
+@app.route('/survey/',methods=['POST'])
+def submit_survey():
+    data = ju(request.data)
+    loc_x = data["location_x"]
+    loc_y = data["location_y"]
+    price = data["price"]
+    dist = data["distance"]
+    time = data["time"]
+    tags = data["preferences"]
+    try:
+        return success_response(dao.submit_survey(loc_x,
+        loc_y,
+        price,
+        dist,
+        time, 
+        tags))
+    except:
+        return failure_response("Please try again.")
+
+@app.route('/survey/',methods=['POST'])
+def place_vote():
+    data = ju(request.data)
+    user = data["user"]
+    restaurants = data["restaurants"]
+    try:
+        return success_response(dao.place_vote(user,restaurants))
+    except:
+        return failure_response("Vote failed or group does not exist")
+
+@app.route('/groups/',methods=['DELETE'])
+def leave_group():
+    data = ju(request.data)
+    user = data["user"]
+    group = data["group"]
+    try:
+        return success_response(dao.leave_group(user, group))
+    except:
+        return failure_response("User not in group.")
+
+@app.route('/users/',methods=['DELETE'])
+def delete_user():
+    data = ju(request.data)
+    user = data["user"]
+    pwd = data["pwd"]
+    try:
+        return success_response(dao.delete_user(user))
+    except:
+        return failure_response("User not in group.")
+
+
+
 
 
 
