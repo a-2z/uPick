@@ -7,35 +7,35 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.upick.upick.databinding.FragmentRestaurantsLoadingBinding
+import com.upick.upick.databinding.FragmentWaitingAfterSortingBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RestaurantsLoadingFragment : Fragment() {
+class WaitingAfterSortingFragment : Fragment() {
 
-    private lateinit var binding: FragmentRestaurantsLoadingBinding
+    private lateinit var binding: FragmentWaitingAfterSortingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRestaurantsLoadingBinding.inflate(inflater, container, false)
+        binding = FragmentWaitingAfterSortingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.mainTextView.text = "Loading your favourite restaurants!"
+        binding.mainTextView.text = "Let's wait for your friends to finish sorting!"
         val loadingDone = false
         if (loadingDone) {
-            findNavController().navigate(RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment())
+            findNavController().navigate(WaitingAfterSortingFragmentDirections.actionWaitingAfterSortingFragmentToResultFragment())
         }
 
         // The following uses CoRoutines to generate a 1s delay. It's just a placeholder for the
         // actual HTTP requests
         lifecycleScope.launch {
             delay(1000L)
-            findNavController().navigate(RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment())
+            findNavController().navigate(WaitingAfterSortingFragmentDirections.actionWaitingAfterSortingFragmentToResultFragment())
         }
     }
 }

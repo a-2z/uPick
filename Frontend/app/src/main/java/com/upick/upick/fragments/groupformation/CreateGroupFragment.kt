@@ -27,7 +27,11 @@ class CreateGroupFragment : Fragment() {
         binding.firstButton.apply {
             text = "Creates Group on Backend >> SURVEY"
             setOnClickListener {
-                findNavController().navigate(CreateGroupFragmentDirections.actionCreateGroupFragmentToSurveyFragment())
+                findNavController().navigate(
+                    CreateGroupFragmentDirections.actionCreateGroupFragmentToSurveyFragment(
+                        groupId = 1
+                    )
+                )
             }
         }
     }

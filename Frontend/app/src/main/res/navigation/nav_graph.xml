@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_DashboardFragment_to_hostSurveyFragment"
             app:destination="@id/createGroupFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -67,10 +70,53 @@
         <action
             android:id="@+id/action_surveyFragment_to_groupLobbyFragment"
             app:destination="@id/groupLobbyFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/groupLobbyFragment"
         android:name="com.upick.upick.fragments.groupformation.GroupLobbyFragment"
-        android:label=""
-        tools:layout="@layout/fragment_group_lobby" />
+        tools:layout="@layout/fragment_group_lobby">
+        <action
+            android:id="@+id/action_groupLobbyFragment_to_restaurantsLoadingFragment"
+            app:destination="@id/restaurantsLoadingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantsLoadingFragment"
+        android:name="com.upick.upick.fragments.groupformed.RestaurantsLoadingFragment"
+        tools:layout="@layout/fragment_restaurants_loading">
+        <action
+            android:id="@+id/action_restaurantsLoadingFragment_to_sortingFragment"
+            app:destination="@id/sortingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sortingFragment"
+        android:name="com.upick.upick.fragments.groupformed.SortingFragment"
+        tools:layout="@layout/fragment_sorting">
+        <action
+            android:id="@+id/action_sortingFragment_to_waitingAfterSortingFragment"
+            app:destination="@id/waitingAfterSortingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitingAfterSortingFragment"
+        android:name="com.upick.upick.fragments.groupformed.WaitingAfterSortingFragment"
+        tools:layout="@layout/fragment_waiting_after_sorting">
+        <action
+            android:id="@+id/action_waitingAfterSortingFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.upick.upick.fragments.groupformed.ResultFragment"
+        tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.upick.upick.fragments.FriendsFragment"
+        android:label="FriendsFragment"
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment" />
+    </fragment>
 </navigation>

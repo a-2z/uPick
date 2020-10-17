@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.upick.upick.activities.MainActivity
 import com.upick.upick.databinding.FragmentGroupLobbyBinding
 
@@ -28,9 +29,9 @@ class GroupLobbyFragment : Fragment() {
         binding.mainTextView.text =
             "Let's wait for everyone to arrive. Host , click ready when everyone's here! (everyone else simply waits, no button to press)"
         binding.firstButton.apply {
-            text = "HOST ONLY >> NEXT"
+            text = "HOST: READY >> LOAD RESTAURANTS"
             setOnClickListener {
-//                findNavController().navigate()
+                findNavController().navigate(GroupLobbyFragmentDirections.actionGroupLobbyFragmentToRestaurantsLoadingFragment())
             }
         }
     }

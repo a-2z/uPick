@@ -5,13 +5,12 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.upick.upick.R
-import com.upick.upick.databinding.FragmentDashboardBinding
+import com.upick.upick.databinding.FragmentFriendsBinding
 
-class DashboardFragment : Fragment() {
+class FriendsFragment : Fragment() {
 
-    private lateinit var binding: FragmentDashboardBinding
+    private lateinit var binding: FragmentFriendsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -22,23 +21,27 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentDashboardBinding.inflate(inflater)
+        binding = FragmentFriendsBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.mainTextView.text =
-            "You're at the screen after login! Host, you can create a group here. Members will receive a notif and will jump straight to SurveyFragment"
+            "Friends / join room fragment"
         binding.firstButton.apply {
-            text = "+ BUTTON >> CREATE GROUP"
+            text = "+ BUTTON >> JOIN GROUP"
             setOnClickListener {
-                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToHostSurveyFragment())
+                findNavController().navigate(
+                    FriendsFragmentDirections.actionFriendsFragmentToSurveyFragment(
+                        groupId = 0
+                    )
+                )
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
+        inflater.inflate(R.menu.menu_friends, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -49,10 +52,6 @@ class DashboardFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 Toast.makeText(requireContext(), "Settings", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.action_friends -> {
-                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToFriendsFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)
