@@ -148,7 +148,7 @@ def join_group():
     except:
         return failure_response("Please try again.")
 
-@app.route('/survey/',methods=['POST'])
+@app.route('/survey/', methods=['POST'])
 def submit_survey():
     data = ju(request.data)
     group = data["group"]
@@ -159,18 +159,12 @@ def submit_survey():
     time = data["time"]
     tags = data["preferences"]
     try:
-        return success_response(dao.submit_survey(
-        group,
-        loc_x,
-        loc_y,
-        price,
-        dist,
-        time, 
-        tags))
+        return success_response(dao.submit_survey(group, loc_x, loc_y, price,
+                                dist, time, tags))
     except:
         return failure_response("Please try again.")
 
-@app.route('/vote/',methods=['POST'])
+@app.route('/vote/', methods=['POST'])
 def place_vote():
     data = ju(request.data)
     group = data["group"]
@@ -180,22 +174,18 @@ def place_vote():
     except:
         return failure_response("Vote failed or group does not exist")
 
-@app.route('/groups/',methods=['DELETE'])
+@app.route('/groups/', methods=['DELETE'])
 def leave_group():
     """Leave a group if not host; delete it if host leaves"""
     data = ju(request.data)
     user = data["user"]
     group = data["group"]
-    delete = data["delete"]
     try:
-        if not delete:
-            return success_response(dao.leave_group(user, group))
-        else:
-            return success_response(dao.delete_group(group))
+        return success_response(dao.leave_group(user, group))
     except:
         return failure_response("User not in group.")
 
-@app.route('/users/',methods=['DELETE'])
+@app.route('/users/', methods=['DELETE'])
 def delete_user():
     data = ju(request.data)
     user = data["user"]
@@ -236,8 +226,6 @@ def add_ingredients():
     except:
         return failure_response("Please try again.")
 
-
-
 @app.route('/restaurants/tags/', methods=['POST'])
 def add_tags():
     data = ju(request.data)
@@ -256,15 +244,6 @@ def delete_restaurant():
         return success_response(dao.delete_restaurant(res_id))
     except:
         return failure_response("Please try again.")
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -96,7 +96,7 @@ class Restrictions(db.Model):
 class Group(db.Model):
     __tablename__ = "groups"
     id = db.Column(db.Integer, primary_key=True)
-    host = db.Column(db.String, nullable = False)
+    host = db.Column(db.Integer, nullable = False)
     name = db.Column(db.String, nullable = False)
     date = db.Column(db.String, nullable=False)
     num_members = db.Column(db.Integer, default=1)

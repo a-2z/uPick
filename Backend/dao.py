@@ -111,8 +111,9 @@ def create_user(user, hash):
     except:
         raise UserExists(user)
 
-"""return a user's hash"""
+
 def authenticate(user, password):
+    """return a user's hash"""
     user_pass = User.query.filter_by(user=user).first()
     if user_pass is None:
         raise UserNotFound(user)
@@ -120,9 +121,17 @@ def authenticate(user, password):
         return user_pass.serialize_user()["hash"]
 
 def add_friend(f1, f2):
-    """friendship = Friends(inviter=f1, invitee=f2)
-    if db.session.query(Friends).filter(((Friends.inviter == user_id) 
-    | (Friends.invitee == user_id)) & (Friends.accepted == 0)).count() > 0:"""
+    friendship = Friends(inviter=f1, invitee=f2)
+    f_ship = Friends.query.filter_by(
+        (((Restaurants.inviter = f1) & Restaurants.invitee == f2) & 
+        (accepted == 0)) |
+        (((Restaurants.inviter = f2) & Restaurants.invitee == f1) & 
+        (accepted == 0))).first()
+    if f_ship is None:
+        db.session.add(friendship)
+    else:
+        f_ship.accepted = 1
+    db.session.commit()
 
 def create_group(host, name, date):
 	new_grp = Group(host=host,name=name,date=date)
@@ -133,36 +142,74 @@ def create_group(host, name, date):
 def invite_member(group, user):
 	db.session.add(GroupMembers(user=user,group=group))
     db.session.commit()
+    return user
 
 def join_group(group, user):
 	g = GroupMembers.query.filter_by(user=user,group=group,accepted=0)
     g.accepted = 1
     db.session.commit()
+    return group
 
-def submit_survey(loc_x, loc_y, price, dist, time, tags):
-	Group.query.filter_by()
+def submit_survey(group, loc_x, loc_y, price, dist, time, tags):
+	g = Group.query.filter_by(group=group).first()
+    g.tot_x += loc_x
+    g.tot_y += loc_y
+    g.tot_price += price
+    g.tot_dist += dist
+    g.tot_time += time
+    for t in tags:
+        try:
+            tag = Tags(category = 'grp', name=group, tag=t)
+            db.session.add(tag)
+        except:
+            pass 
+    db.session.commit()
+    return "Responses submitted"
 
-def place_vote(user, restaurants):
-	pass
+def place_vote(group, restaurants):
+	for i in range(len(restaurants) - 1):
+        v = BordaVote(group=group,rank=i,restaurant=restaurants[i])
+        db.session.add(v)
+    db.session.commit()
+    return "Vote submitted."
 
 def leave_group(user, group):
-	pass
-
-def delete_group(group):
-	pass
+    g = Group.query.filter_by(group=group).first()
+	if g.host == user:
+        db.session.delete(g)
+    else:
+        gm = GroupMembers.query.filter_by(user=user)
+        db.session.delete(gm)
+    db.session.commit()
 
 def delete_user(user):
-	pass
+	usr = User.query.filter_by(id=user).first()
+    db.session.delete(usr)
+    f_ships = Friends.query.filter((Friends.inviter == usr) | 
+    (Friends.invitee == usr)).all()
+    for f in f_ships:
+        db.session.delete(f)
+    gm = GroupMembers.query.filter_by(user = user).all()
+    for mem in gm:
+        db.session.delete(mem)
+    db.session.commit()
+    return 
 
-def make_restaurant(name, price, rating, description, wait, phone, loc_x, loc_y):
-	pass
-
-def add_ingredient(name):
-    pass
+def make_restaurant(name, price, image, rating, description, wait, phone, 
+                    loc_x, loc_y):
+	res = Restaurants(name=name, price=price, image=image, rating=rating, 
+                        description=description, wait_time=wait, 
+                        phone=phone, loc_x=loc_x, loc_y=loc_y)
+    db.session.add(res)
+    db.session.commit()
 
 def add_res_tags(res_id, tags):
-    pass
+    for t in tags:
+        tg = Tags(category="res", name=res_id,tag=t)
+        db.session.add(tg)
+    db.session.commit()
 
 def delete_restaurant(res_id):
-    pass
+    db.session.delete(Restaurants.query.filter_by(id=res_id).first())
+    db.session.commit()
 
