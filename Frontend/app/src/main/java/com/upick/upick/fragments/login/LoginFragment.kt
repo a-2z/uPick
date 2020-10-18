@@ -11,7 +11,9 @@ import androidx.navigation.findNavController
 import com.upick.upick.R
 import com.upick.upick.activities.Keys
 import com.upick.upick.activities.MainActivity
+import com.upick.upick.activities.MainRepository
 import com.upick.upick.databinding.FragmentLoginBinding
+import com.upick.upick.network.SignInPOSTResponse
 import com.upick.upick.network.UsersPOSTResponse
 import kotlinx.coroutines.launch
 
@@ -36,8 +38,8 @@ class LoginFragment : Fragment() {
                 lifecycleScope.launch {
                     val username = binding.usernameEditText.text.toString()
                     val password = binding.passwordEditText.text.toString()
-//                    val response = MainRepository.postSignIn(username, password)
-                    val response = UsersPOSTResponse(true, 1)
+                    var response = MainRepository.postSignIn(username, password)
+                    response = SignInPOSTResponse(true, 1)  // TODO: Remove (here for development only)
                     if (response.success) {
                         (requireActivity() as MainActivity).sharedPreferences
                             .edit()

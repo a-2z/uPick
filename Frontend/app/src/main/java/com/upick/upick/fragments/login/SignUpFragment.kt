@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.upick.upick.R
 import com.upick.upick.activities.Keys
 import com.upick.upick.activities.MainActivity
+import com.upick.upick.activities.MainRepository
 import com.upick.upick.databinding.FragmentSignUpBinding
 import com.upick.upick.network.UsersPOSTResponse
 import kotlinx.coroutines.launch
@@ -36,8 +37,8 @@ class SignUpFragment : Fragment() {
                 lifecycleScope.launch {
                     val username = binding.usernameEditText.text.toString()
                     val password = binding.passwordEditText.text.toString()
-//                    val response = MainRepository.postUsers(username, password)
-                    val response = UsersPOSTResponse(true, 1)
+                    var response = MainRepository.postUsers(username, password)
+                    response = UsersPOSTResponse(true, 1)  // TODO: Remove (here for development only)
                     if (response.success) {
                         (requireActivity() as MainActivity).sharedPreferences
                             .edit()
@@ -51,7 +52,7 @@ class SignUpFragment : Fragment() {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Login failed. Please try again.",
+                            "Sign up failed. Please try again.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

@@ -23,12 +23,22 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.mainTextView.text = "Settings Fragment!"
-        binding.thirdButton.apply {
+        binding.secondButton.apply {
             text = "Logout"
             setOnClickListener {
                 findNavController().apply {
                     if (currentDestination?.id == R.id.settingsFragment) {
                         navigate(SettingsFragmentDirections.actionGlobalLoginFragment())
+                    }
+                }
+            }
+        }
+        binding.thirdButton.apply {
+            text = "Delete User"
+            setOnClickListener {
+                findNavController().apply {
+                    if (currentDestination?.id == R.id.settingsFragment) {
+                        navigate(SettingsFragmentDirections.actionSettingsFragmentToDeleteUserFragment())
                     }
                 }
             }

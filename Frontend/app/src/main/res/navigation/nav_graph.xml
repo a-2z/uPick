@@ -132,13 +132,22 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        tools:layout="@layout/fragment_settings"
         android:name="com.upick.upick.fragments.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_deleteUserFragment"
+            app:destination="@id/deleteUserFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment"
         app:launchSingleTop="true"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/deleteUserFragment"
+        android:name="com.upick.upick.DeleteUserFragment"
+        android:label="DeleteUserFragment"
+        tools:layout="@layout/fragment_delete_user" />
 </navigation>
