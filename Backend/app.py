@@ -38,7 +38,7 @@ def hash_pw(pwd):
 
 def compare_pw(pwd, hash):
     """Compare the plaintext password with the stored hash"""
-    return bcrypt.checkpw(pwd, hash)
+    return bcrypt.checkpw(pwd.encode('utf8'), hash)
 
 def ju(jason):
     """Unpacks jsons"""
@@ -46,7 +46,7 @@ def ju(jason):
 
 
 # Routes go here
-@app.route('/users/<user>', methods=['GET'])
+@app.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user):
     try:
         return success_response(dao.get_user(user))
@@ -54,7 +54,7 @@ def get_user(user):
         return failure_response("Please try again.")
 
 
-@app.route('/pending/<user>', methods=['GET'])
+@app.route('/pending/<int:user_id>', methods=['GET'])
 def get_pending(user):
     try:
         return success_response(dao.get_pending(user))
@@ -62,7 +62,7 @@ def get_pending(user):
         return failure_response("User not found.")
 
 
-@app.route('/groups/<group>', methods=['GET'])
+@app.route('/groups/<int:group_id>', methods=['GET'])
 def get_group(group):
     try:
         return success_response(dao.get_group(group))
@@ -70,7 +70,7 @@ def get_group(group):
         return failure_response("Group not found")
 
 
-@app.route('/invites/<user>', methods=['GET'])
+@app.route('/invites/<int:user_id>', methods=['GET'])
 def check_invites(user):
     try:
         return success_response(dao.get_invites(user))
@@ -96,11 +96,11 @@ def login():
     pwd = data["pwd"]
     try:
         if compare_pw(pwd, dao.authenticate(usr,pwd)):
-            success_response("You are logged in.")
+            return success_response("You are logged in.")
         else:
-            failure_response("Invalid username password combination.")
+            return failure_response("Invalid username password combination.")
     except:
-        failure_response("Invalid username or password.")
+        return failure_response("Invalid username or password.")
 
 @app.route('/invites/', methods=['POST'])
 def accept_friend():

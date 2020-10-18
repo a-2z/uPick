@@ -10,7 +10,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, nullable=False, unique = True)
     hash_pw = db.Column(db.String, nullable=False)
-    def serialize_user():
+    def serialize_user(self):
         return {"id": self.id, "username": self.user, "hash": self.hash_pw}
         
 
@@ -20,8 +20,14 @@ class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     inviter = db.Column(db.String, nullable=False)
     invitee = db.Column(db.String, nullable=False)
-    #Accepted = False
-    accepted = db.Column(db.Integer, nullable=False)
+    #Accepted = 0
+    accepted = db.Column(db.Integer, nullable=False, default = 0)
+    def serialize_friendship(self):
+        return {"id": self.id, 
+        "f1": self.inviter, 
+        "f2": self.invitee, 
+        "accepted": self.accepted}
+
 
 
 class Tags(db.Model):

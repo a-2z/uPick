@@ -11,19 +11,28 @@ def get_user(user):
 def get_user_name(user):
     """Check that the username exists in the username table"""
     un = User.query.filter_by(user=user).first()
+    friends = []
+    for friend in db.query(Friends).filter(_and(_or(Friends.inviter==user, Friends.invitee == user), Friends.accepted == 1)).all():
+        f_ship = friend.serialize_friendship()
+        if f_ship["f1"] == user:
+            friends.append (f_ship["f2"])
+        else:
+            friends.append(f_ship["f1"])
     if un is None:
         raise UserNotFound(user)
     else:
-        un.serialize_user()
+        username = un.serialize_user()["user"]
+        return {"id": username, "friends": friends}
+
 
 def get_pending(user):
-	pass
+    pass
 
 def get_group(group):
-	pass
+    pass
 
 def get_invites(user):
-	pass
+    pass
 
 def create_user(user, hash):
     """Store a new user's username and hash"""
@@ -37,11 +46,11 @@ def create_user(user, hash):
 
 """return a user's hash"""
 def authenticate(user, password):
-	user_pass = db.session.query.filter_by(user=user).first()
+    user_pass = User.query.filter_by(user=user).first()
     if user_pass is None:
         raise UserNotFound(user)
     else:
-        return User.serialize_user(user_pass_pair)["hash"]
+        return user_pass.serialize_user()["hash"]
 
 def accept_friend(f1, f2):
 	pass

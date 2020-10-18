@@ -9,7 +9,7 @@
 <body>
 	<!--Make a user-->
 	<div style="background-color: grey;">
-		<h1>Route: /users/&ltuser&gt</h1>
+		<h1>Route: /users/&ltint:user_id&gt</h1>
 		<h2>Description: Check a user's existence and friends</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
@@ -19,7 +19,7 @@
 			} </h4>
 	</div>
 	<div style="background-color: grey;">
-		<h1>Route: /pending/&ltuser&gt</h1>
+		<h1>Route: /pending/&ltint:user_id&gt</h1>
 		<h2>Description: Get list of friend requests sent and received</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
@@ -31,7 +31,7 @@
 		</h4>
 	</div>
 	<div style="background-color: grey;">
-		<h1>Route: /groups/&ltgroup&gt </h1>
+		<h1>Route: /groups/&ltint:group_id&gt </h1>
 		<h2>Description: Get all relevant attributes of a group.</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
@@ -62,7 +62,7 @@
 		</h4>
 	</div>
 	<div style="background-color: grey;">
-		<h1>Route: /invites/&ltuser&gt</h1>
+		<h1>Route: /invites/&ltint:user_id&gt</h1>
 		<h2>Description: Get all invitations to groups</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
@@ -73,7 +73,7 @@
 		<h2>Description: Create a new user</h2>
 		<h3>Method Type: POST</h3>
 		<h4>In: {"usr": string, "pwd": string}</h4>
-		<h4>Out: {"success": bool, "data": usr}</h4>
+		<h4>Out: {"success": bool, "data": usr_id (int)}</h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /signin/</h1>
