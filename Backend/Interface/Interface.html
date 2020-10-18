@@ -10,12 +10,12 @@
 	<!--Make a user-->
 	<div style="background-color: grey;">
 		<h1>Route: /users/&ltint:user_id&gt</h1>
-		<h2>Description: Check a user's existence and friends</h2>
+		<h2>Description: Check a user's existence, username, and friends</h2>
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
 		<h4>Out: {"success" : bool, <br>
 			"data": <br>
-			{<br>"id": user, <br> "friends": ["f1","f2"...],<br>
+			{<br>"id": user_id (int),<br> "username": str,<br> "friends": [f1,f2,f3...] (int list),<br>
 			} </h4>
 	</div>
 	<div style="background-color: grey;">
@@ -26,8 +26,8 @@
 		<h4>Out: <br>
 			{"success": bool,<br>
 			"data": <br>{<br>
-			"sent": ["usr1","usr2",...],<br>
-			"received": ["usr1","usr2",...]<br>}<br>}
+			"sent": [usr1,usr2,...] (int list),<br>
+			"received": [usr1,usr2,...] (int list)<br>}<br>}
 		</h4>
 	</div>
 	<div style="background-color: grey;">
@@ -37,28 +37,15 @@
 		<h4>In: N/A</h4>
 		<h4>Out:<br> {"success": bool,<br>
 			"data": {
-			"group" : int,<br>
+			"group_id" : int,<br>
 			"date": str,<br>
 			"host": str, <br>
 			"name": str, <br>
-			"members": ["usr1","usr2",...],<br>
+			"members": [usr1,usr2,...] (int list),<br>
 			"survey_complete": bool,<br>
-			"top_choices":<br> [{"name": str,<br>"phone_number": str, <br>
-			"description": str,<br>
-			"image_url": str,<br>
-			"rating": int,<br>
-			"wait time": int,<br>
-			"location_x" : float,<br>
-			"location_y" : float
-			},...]<br>
+			"top_choices": [r1_id,r2_id,...](int list),<br>
 			"voting_complete": bool, <br>
-			"final_choice": <br>{"name": str,<br>"phone_number": str,<br>
-			"description": str,<br>
-			"image_url": str,<br>
-			"rating": int,<br>
-			"wait time": int,<br>
-			"location_x" : float,<br>
-			"location_y" : float<br>}<br>}<br>}
+			"final_choice": r_id}<br>}
 		</h4>
 	</div>
 	<div style="background-color: grey;">
@@ -67,6 +54,24 @@
 		<h3>Method Type: GET</h3>
 		<h4>In: N/A</h4>
 		<h4>Out: {"success: bool", "data": {"invitations": [gr1,gr2,..]}}</h4>
+	</div>
+	<div style="background-color: grey;">
+		<h1>Route: /restaurants/&ltint:id&gt</h1>
+		<h2>Description: Get a restaurant's details</h2>
+		<h3>Method Type: GET</h3>
+		<h4>In: N/A</h4>
+		<h4>Out: {"success: bool", "data": <br>
+			{<br>
+			"id": int, <br>
+			"name": str, <br>
+			"price": int (1-4), <br>
+			"image": str, <br>
+			"rating": int (1-5), <br>
+			"description": str, <br>
+			"wait_time": int (1-3),<br>
+			"phone": str,<br>
+			"location_x": float,<br>
+			"location_y": float}<br>}</h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /users/</h1>
@@ -118,7 +123,11 @@
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /survey/</h1>
-		<h2>Description: Respond to survey questions</h2>
+		<h2>Description: Respond to survey questions. Options for price
+			should be 7.5, 18, 33, and 80, but the labels should be ($5-10),
+			($10-$25), ($26-$40), and $41+. Please reference the 'upick summary'
+			doc for the actual values submitted vs the labels the user sees.
+		</h2>
 		<h3>Method Type: POST</h3>
 		<h4>In: {"user": str,<br>
 			"location_x": float,<br>
@@ -134,23 +143,22 @@
 		<h1>Route: /vote/</h1>
 		<h2>Description: Place ranked votes</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"user": string, "restaurants": [r1,r2,...] (int)}</h4>
+		<h4>In: {"restaurants": [r1,r2,...] (int list)}</h4>
 		<h4>Out: {"success": bool, "data": "Vote submitted."} </h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /groups/</h1>
-		<h2>Description: Leave a group. If the host leaves, the group is deleted;
-			set "delete" to True if this is the case.
+		<h2>Description: Leave a group. If the host leaves, the group is deleted.
 		</h2>
 		<h3>Method Type: DELETE</h3>
-		<h4>In: {"user": str, "group": str, "delete": bool}</h4>
+		<h4>In: {"user": int (user id), "group": int (group id)}</h4>
 		<h4>Out: {"success": bool, "data": "You left the group."} </h4>
 	</div>
 	<div style="background-color: grey;">
 		<h1>Route: /groups/join/</h1>
 		<h2>Description: Join a group.</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"user": str, "group": str}</h4>
+		<h4>In: {"user": int, "group": int}</h4>
 		<h4>Out: {"success": bool, "data": group} </h4>
 	</div>
 	<div style="background-color: grey;">

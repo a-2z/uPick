@@ -3,6 +3,7 @@ from flask import Flask, request
 from db import db
 import dao
 import bcrypt
+from exceptions import *
 
 # Define db filename
 app = Flask(__name__)
@@ -50,7 +51,7 @@ def ju(jason):
 def get_user(user_id):
     try:
         return success_response(dao.get_user(user_id))
-    except:
+    except UserNotFound as e:
         return failure_response("Please try again.")
 
 
@@ -103,12 +104,12 @@ def login():
         return failure_response("Invalid username or password.")
 
 @app.route('/invites/', methods=['POST'])
-def accept_friend():
+def add_friend():
     data = ju(request.data)
     f1 = data["friend1"]
     f2 = data["friend2"]
     try:
-        return success_response(dao.accept_friend(f1, f2))
+        return success_response(dao.add_friend(f1, f2))
     except:
         return failure_response("User not found")
 

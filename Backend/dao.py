@@ -3,31 +3,38 @@ from exceptions import *
 
 """Database interaction methods"""
 
-def get_user(user):
-    """Return the username, friend list, and restriction list of the user
-    as a dictionary."""
-    pass
-
-def get_user_name(user):
-    """Check that the username exists in the username table"""
-    un = User.query.filter_by(user=user).first()
+def get_user(user_id):
+    """Get a user's username and friends by id"""
+    un = User.query.filter_by(id=user_id).first()
     friends = []
-    for friend in db.query(Friends).filter(_and(_or(Friends.inviter==user, Friends.invitee == user), Friends.accepted == 1)).all():
+    friend_list = db.session.query(Friends).filter(((Friends.inviter == user_id) 
+    | (Friends.invitee == user_id)) & (Friends.accepted == 1)).all()
+    for friend in friend_list:
         f_ship = friend.serialize_friendship()
-        if f_ship["f1"] == user:
+        if f_ship["f1"] == user_id:
             friends.append (f_ship["f2"])
         else:
             friends.append(f_ship["f1"])
     if un is None:
-        raise UserNotFound(user)
+        raise UserNotFound(user_id)
     else:
-        username = un.serialize_user()["user"]
-        return {"id": username, "friends": friends}
+        username = un.serialize_user()["username"]
+        return {"id": user_id, "name": username, "friends": friends}
 
-
-def get_pending(user):
+def get_pending(user_id):
     """Get sent or recieved friend requests that are not accepted"""
-    pass
+    friends = []
+    friend_list = db.session.query(Friends).filter(((Friends.inviter == user_id) 
+    | (Friends.invitee == user_id)) & (Friends.accepted == 0)).all()
+    sent = []
+    received = []
+    for friend in friend_list:
+        f_ship = friend.serialize_friendship()
+        if f_ship["f1"] == user_id:
+            sent.append (f_ship["f2"])
+        else:
+            received.append(f_ship["f1"])
+    return {"sent": sent, "received": received}
 
 def get_group(group):
     pass
@@ -53,8 +60,10 @@ def authenticate(user, password):
     else:
         return user_pass.serialize_user()["hash"]
 
-def accept_friend(f1, f2):
-	pass
+def add_friend(f1, f2):
+	friendship = Friends(inviter=f1, invitee=f2)
+    if db.session.query(Friends).filter(((Friends.inviter == user_id) 
+    | (Friends.invitee == user_id)) & (Friends.accepted == 0)).all()
 
 def create_group(host, date):
 	pass

@@ -18,8 +18,8 @@ class User(db.Model):
 class Friends(db.Model):
     __tablename__ = "friends"
     id = db.Column(db.Integer, primary_key=True)
-    inviter = db.Column(db.String, nullable=False)
-    invitee = db.Column(db.String, nullable=False)
+    inviter = db.Column(db.Integer, nullable=False)
+    invitee = db.Column(db.Integer, nullable=False)
     #Accepted = 0
     accepted = db.Column(db.Integer, nullable=False, default = 0)
     def serialize_friendship(self):
@@ -28,21 +28,9 @@ class Friends(db.Model):
         "f2": self.invitee, 
         "accepted": self.accepted}
 
-
-
-class Tags(db.Model):
-    __tablename__ = "tags"
-    """Tags for categories of food, shared in survey and by restaurants"""
-    id = db.Column(db.Integer, primary_key=True)
-    # Category is res for restaurants and grp for groups
-    category = db.Column(db.String, nullable=False, default="res")
-    name = db.Column(db.Integer, nullable=False)
-    tag = db.Column(db.Integer, nullable=False)
-
-
 class Restaurants(db.Model):
     __tablename__ = "restaurants"
-    res_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     image = db.Column(db.String, nullable=False)
@@ -55,6 +43,19 @@ class Restaurants(db.Model):
     # locations are geographic coordinates
     loc_x = db.Column(db.Integer, nullable=False)
     loc_y = db.Column(db.Integer, nullable=False)
+    def serialize_rest(self):
+        return{"id": self.id, "name"}
+
+class Tags(db.Model):
+    __tablename__ = "tags"
+    __table_args__ = (db.UniqueConstraint(category, name, tag),)
+    """Tags for categories of food, shared in survey and by restaurants"""
+    id = db.Column(db.Integer, primary_key=True)
+    # Category is res for restaurants and grp for groups
+    category = db.Column(db.String, nullable=False, default="res")
+    name = db.Column(db.Integer, nullable=False)
+    tag = db.Column(db.Integer, nullable=False)
+
 
 """
 class Ingredients(db.Model):
@@ -85,31 +86,25 @@ class Group(db.Model):
     tot_time = db.Column(db.Integer, nullable=False, default=0)
     pick = db.Column(db.String, nullable=False, default="none")
 
-class Invitations(db.Model):
+class GroupMembers(db.Model):
     __tablename__ = "invitations"
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String, nullable=False)
+    user = db.Column(db.Integer, nullable=False)
     group = db.Column(db.Integer, nullable=False)
-
-class GroupMembers(db.Model):
-    __tablename__ = "membership"
-    membership_id = db.Column(db.Integer, primary_key=True)
-    group_id = db.Column(db.Integer, nullable=False)
-    person = db.Column(db.String, nullable=False)
-    """Whether or not someone has voted 1 == True, 0 == False)"""
-    voted = db.Column(db.Integer) 
+    accepted = db.Column(db.Integer, nullable=False, default=0)
+    ready = db.Column(db.Integer, nullable=False, default=1)
 
 # Voting
 class TopChoices(db.Model):
     __tablename__ = "top_choices"
-    vote_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer, nullable=False)
     res = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
 
 class BordaVote(db.Model):
     __tablename__ = "borda_vote"
-    vote_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.Integer)
     # Ranking from 0-4, with 0 being most preferred and 4 the least
     rank = db.Column(db.Integer, nullable=False)
