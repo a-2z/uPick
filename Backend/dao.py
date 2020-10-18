@@ -6,7 +6,7 @@ from exceptions import *
 def get_user(user):
     """Return the username, friend list, and restriction list of the user
     as a dictionary."""
-	pass
+    pass
 
 def get_user_name(user):
     """Check that the username exists in the username table"""
@@ -25,11 +25,23 @@ def get_group(group):
 def get_invites(user):
 	pass
 
-def create_user(user, password):
-	pass
+def create_user(user, hash):
+    """Store a new user's username and hash"""
+    try:
+        new_user = User(user = user, hash_pw = hash)
+        db.session.add(new_user)
+        db.session.commit()
+        return user
+    except:
+        raise UserExists(user)
 
+"""return a user's hash"""
 def authenticate(user, password):
-	pass
+	user_pass = db.session.query.filter_by(user=user).first()
+    if user_pass is None:
+        raise UserNotFound(user)
+    else:
+        return User.serialize_user(user_pass_pair)["hash"]
 
 def accept_friend(f1, f2):
 	pass

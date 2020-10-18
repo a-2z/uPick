@@ -1,8 +1,8 @@
 import json
-import json
 from flask import Flask, request
 from db import db
 import dao
+import bcrypt
 
 # Define db filename
 app = Flask(__name__)
@@ -14,7 +14,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 db.init_app(app)
 with app.app_context():
-    db.create_all
+    db.create_all()
+    db.session.commit()
 
 # Helper Methods
 
@@ -31,6 +32,14 @@ def failure_response(message, code=404):
     return json.dumps({"success": False, "error": message}), code
 
 
+def hash_pw(pwd):
+    """Hash a password, integrating the salt into the hash"""
+    return bcrypt.hashpw(pwd.encode('utf8'), bcrypt.gensalt())
+
+def compare_pw(pwd, hash):
+    """Compare the plaintext password with the stored hash"""
+    return bcrypt.checkpw(pwd, hash)
+
 def ju(jason):
     """Unpacks jsons"""
     return json.loads(jason)
@@ -38,7 +47,7 @@ def ju(jason):
 
 # Routes go here
 @app.route('/users/<user>', methods=['GET'])
-def get_users(user):
+def get_user(user):
     try:
         return success_response(dao.get_user(user))
     except:
@@ -75,7 +84,7 @@ def new_user():
     usr = data["usr"]
     pwd = data["pwd"]
     try:
-        return success_response(dao.create_user(usr,pwd))
+        return success_response(dao.create_user(usr,hash_pw(pwd)))
     except:
         return failure_response("Invalid username or password.")
 
@@ -85,9 +94,12 @@ def login():
     data = ju(request.data)
     usr = data["usr"]
     pwd = data["pwd"]
-    if dao.authenticate(usr, pwd):
-        success_response("You are logged in.")
-    else:
+    try:
+        if compare_pw(pwd, dao.authenticate(usr,pwd)):
+            success_response("You are logged in.")
+        else:
+            failure_response("Invalid username password combination.")
+    except:
         failure_response("Invalid username or password.")
 
 @app.route('/invites/', methods=['POST'])
