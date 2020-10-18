@@ -2,6 +2,8 @@ package com.upick.upick.activities
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -12,6 +14,8 @@ import com.upick.upick.R
 import com.upick.upick.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     internal lateinit var mainActivityBinding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -34,6 +38,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.startUpFragment, R.id.loginFragment, R.id.signUpFragment -> View.GONE
                 else -> View.VISIBLE
             }
+        }
+
+        mainActivityViewModel.counter.observe(this) {
+            Toast.makeText(this, "Counter changed to $it", Toast.LENGTH_SHORT).show()
         }
 
 

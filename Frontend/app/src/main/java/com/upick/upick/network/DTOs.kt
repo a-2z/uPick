@@ -9,7 +9,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UsersGETResponse(
     val success: Boolean,
-    val data: UsersGETData
+    val data: UsersGETData?
 ) {
     @JsonClass(generateAdapter = true)
     data class UsersGETData(
@@ -25,7 +25,7 @@ data class UsersGETResponse(
 @JsonClass(generateAdapter = true)
 data class PendingGETResponse(
     val success: Boolean,
-    val data: PendingGETData
+    val data: PendingGETData?
 ) {
     @JsonClass(generateAdapter = true)
     data class PendingGETData(
@@ -40,7 +40,7 @@ data class PendingGETResponse(
 @JsonClass(generateAdapter = true)
 data class GroupsGETResponse(
     val success: Boolean,
-    val data: GroupsGETData
+    val data: GroupsGETData?
 ) {
     @JsonClass(generateAdapter = true)
     data class GroupsGETData(
@@ -62,7 +62,7 @@ data class GroupsGETResponse(
 @JsonClass(generateAdapter = true)
 data class InvitesGETResponse(
     val success: Boolean,
-    val data: InvitesGETData
+    val data: InvitesGETData?
 ) {
     @JsonClass(generateAdapter = true)
     data class InvitesGETData(
@@ -76,7 +76,7 @@ data class InvitesGETResponse(
 @JsonClass(generateAdapter = true)
 data class RestaurantsGETResponse(
     val success: Boolean,
-    val data: RestaurantsGETData
+    val data: RestaurantsGETData?
 ) {
     @JsonClass(generateAdapter = true)
     data class RestaurantsGETData(
@@ -99,7 +99,7 @@ data class RestaurantsGETResponse(
 @JsonClass(generateAdapter = true)
 data class UsersPOSTResponse(
     val success: Boolean,
-    val data: Int  // usr_id
+    val data: Int?  // usr_id
 )
 
 /**
@@ -108,7 +108,7 @@ data class UsersPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class SignInPOSTResponse(
     val success: Boolean,
-    val data: String  // = "You are logged in."
+    val data: String?  // = "You are logged in."
 )
 
 /**
@@ -118,7 +118,7 @@ data class SignInPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class InvitesPOSTResponse(
     val success: Boolean,
-    val data: InvitesPOSTData
+    val data: InvitesPOSTData?
 ) {
     @JsonClass(generateAdapter = true)
     data class InvitesPOSTData(
@@ -132,7 +132,7 @@ data class InvitesPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class CreatePOSTResponse(
     val success: Boolean,
-    val data: Int  // group_id
+    val data: Int?  // group_id
 )
 
 /**
@@ -141,7 +141,7 @@ data class CreatePOSTResponse(
 @JsonClass(generateAdapter = true)
 data class GroupsPOSTResponse(
     val success: Boolean,
-    val data: Int  // user
+    val data: Int?  // user
 )
 
 /**
@@ -154,7 +154,7 @@ data class GroupsPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class SurveyPOSTResponse(
     val success: Boolean,
-    val data: String  // = "Responses submitted"
+    val data: String?  // = "Responses submitted"
 )
 
 /**
@@ -163,7 +163,7 @@ data class SurveyPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class VotePOSTResponse(
     val success: Boolean,
-    val data: String  // = "Vote submitted."
+    val data: String?  // = "Vote submitted."
 )
 
 /**
@@ -172,7 +172,7 @@ data class VotePOSTResponse(
 @JsonClass(generateAdapter = true)
 data class GroupsDELETEResponse(
     val success: Boolean,
-    val data: String  // = "You left the group."
+    val data: String?  // = "You left the group."
 )
 
 /**
@@ -181,7 +181,7 @@ data class GroupsDELETEResponse(
 @JsonClass(generateAdapter = true)
 data class GroupsJoinPOSTResponse(
     val success: Boolean,
-    val data: Int  // group
+    val data: Int?  // group
 )
 
 /**
@@ -190,5 +190,5 @@ data class GroupsJoinPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class UsersDELETEResponse(
     val success: Boolean,
-    val data: String  // user(name)
+    val data: String?  // user(name)
 )

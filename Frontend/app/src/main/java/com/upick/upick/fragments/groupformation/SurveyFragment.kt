@@ -10,6 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.upick.upick.databinding.FragmentSurveyBinding
 
+// TODO : ADD SUBMIT BUTTON
+
 class SurveyFragment : Fragment() {
 
     private lateinit var binding: FragmentSurveyBinding

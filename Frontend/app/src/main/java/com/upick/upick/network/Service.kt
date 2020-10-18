@@ -21,7 +21,7 @@ object Backend {
 // Named as such since this defines the API our Retrofit service creates
 interface BackendService {
     @GET("user/{user_id}")
-    suspend fun getUser(@Path("user_id") userId: Int): UsersGETResponse
+    suspend fun getUsers(@Path("user_id") userId: Int): UsersGETResponse
 
     @GET("pending/{user_id}")
     suspend fun getPending(@Path("user_id") userId: Int): PendingGETResponse
