@@ -13,21 +13,21 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.upick.upick.R
 import com.upick.upick.activities.MainRepository
-import com.upick.upick.databinding.FragmentSortingBinding
+import com.upick.upick.databinding.FragmentVoteBinding
 import com.upick.upick.network.VotePOSTResponse
 import kotlinx.coroutines.launch
 
-class SortingFragment : Fragment() {
+class VoteFragment : Fragment() {
 
-    private lateinit var binding: FragmentSortingBinding
-    private val args: SortingFragmentArgs by navArgs()
+    private lateinit var binding: FragmentVoteBinding
+    private val args: VoteFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSortingBinding.inflate(inflater, container, false)
+        binding = FragmentVoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -91,7 +91,7 @@ class SortingFragment : Fragment() {
                         findNavController().apply {
                             if (currentDestination?.id == R.id.surveyFragment) {
                                 navigate(
-                                    SortingFragmentDirections.actionSortingFragmentToWaitingAfterSortingFragment()
+                                    VoteFragmentDirections.actionVoteFragmentToWaitingAfterVoteFragment()
                                 )
                             }
                         }

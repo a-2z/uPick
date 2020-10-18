@@ -32,7 +32,7 @@ class RestaurantsLoadingFragment : Fragment() {
         val loadingDone = false
         if (loadingDone) {
             findNavController().navigate(
-                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment(
+                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToVoteFragment(
                     groupId = args.groupId
                 )
             )
@@ -43,7 +43,7 @@ class RestaurantsLoadingFragment : Fragment() {
         lifecycleScope.launch {
             delay(1000L)
             findNavController().navigate(
-                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment(
+                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToVoteFragment(
                     groupId = args.groupId
                 )
             )

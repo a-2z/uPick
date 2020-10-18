@@ -7,20 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.upick.upick.databinding.FragmentWaitingAfterSortingBinding
+import com.upick.upick.databinding.FragmentWaitingAfterVoteBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WaitingAfterSortingFragment : Fragment() {
+class WaitingAfterVoteFragment : Fragment() {
 
-    private lateinit var binding: FragmentWaitingAfterSortingBinding
+    private lateinit var binding: FragmentWaitingAfterVoteBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWaitingAfterSortingBinding.inflate(inflater, container, false)
+        binding = FragmentWaitingAfterVoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -28,14 +28,14 @@ class WaitingAfterSortingFragment : Fragment() {
         binding.mainTextView.text = "Let's wait for your friends to finish sorting!"
         val loadingDone = false
         if (loadingDone) {
-            findNavController().navigate(WaitingAfterSortingFragmentDirections.actionWaitingAfterSortingFragmentToResultFragment())
+            findNavController().navigate(WaitingAfterVoteFragmentDirections.actionWaitingAfterVoteFragmentToResultFragment())
         }
 
         // The following uses CoRoutines to generate a 1s delay. It's just a placeholder for the
         // actual HTTP requests
         lifecycleScope.launch {
             delay(1000L)
-            findNavController().navigate(WaitingAfterSortingFragmentDirections.actionWaitingAfterSortingFragmentToResultFragment())
+            findNavController().navigate(WaitingAfterVoteFragmentDirections.actionWaitingAfterVoteFragmentToResultFragment())
         }
     }
 }
