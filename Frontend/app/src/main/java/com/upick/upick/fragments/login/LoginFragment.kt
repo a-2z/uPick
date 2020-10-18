@@ -11,8 +11,8 @@ import androidx.navigation.findNavController
 import com.upick.upick.R
 import com.upick.upick.activities.Keys
 import com.upick.upick.activities.MainActivity
-import com.upick.upick.activities.MainRepository
 import com.upick.upick.databinding.FragmentLoginBinding
+import com.upick.upick.network.UsersPOSTResponse
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -36,11 +36,12 @@ class LoginFragment : Fragment() {
                 lifecycleScope.launch {
                     val username = binding.usernameEditText.text.toString()
                     val password = binding.passwordEditText.text.toString()
-                    val response = MainRepository.postSignIn(username, password)
-                    if (response.success || true) {
+//                    val response = MainRepository.postSignIn(username, password)
+                    val response = UsersPOSTResponse(true, 1)
+                    if (response.success) {
                         (requireActivity() as MainActivity).sharedPreferences
                             .edit()
-                            .putBoolean(Keys.LOGGED_IN, true)
+                            .putInt(Keys.LOGGED_IN, response.data!!)
                             .commit()
                         findNavController().apply {
                             if (currentDestination?.id == R.id.loginFragment) {
@@ -54,7 +55,6 @@ class LoginFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
                 }
             }
         }
@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         (requireActivity() as MainActivity).sharedPreferences
             .edit()
-            .putBoolean(Keys.LOGGED_IN, false)
+            .putInt(Keys.LOGGED_IN, Int.MIN_VALUE)
             .commit()
     }
 }

@@ -108,7 +108,7 @@ data class UsersPOSTResponse(
 @JsonClass(generateAdapter = true)
 data class SignInPOSTResponse(
     val success: Boolean,
-    val data: String?  // = "You are logged in."
+    val data: Int?  // usr_id
 )
 
 /**

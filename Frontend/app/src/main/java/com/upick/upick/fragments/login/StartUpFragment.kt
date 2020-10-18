@@ -34,10 +34,10 @@ class StartUpFragment : Fragment() {
 
             findNavController().run {
                 if (currentDestination?.id == R.id.startUpFragment) {
-                    if ((requireActivity() as MainActivity).sharedPreferences.getBoolean(
+                    if ((requireActivity() as MainActivity).sharedPreferences.getInt(
                             Keys.LOGGED_IN,
-                            false
-                        )
+                            Int.MIN_VALUE
+                        ) != Int.MIN_VALUE
                     ) {
                         navigate(StartUpFragmentDirections.actionStartUpFragmentToDashboardFragment())
                     } else {
