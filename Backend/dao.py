@@ -42,6 +42,9 @@ def get_group(group):
 def get_invites(user):
     pass
 
+def get_restaurant(rest_id):
+    return Restaurants.query.filter_by(id=rest_id).first().serialize_rest()
+
 def create_user(user, hash):
     """Store a new user's username and hash"""
     try:
@@ -61,12 +64,15 @@ def authenticate(user, password):
         return user_pass.serialize_user()["hash"]
 
 def add_friend(f1, f2):
-	friendship = Friends(inviter=f1, invitee=f2)
+    """friendship = Friends(inviter=f1, invitee=f2)
     if db.session.query(Friends).filter(((Friends.inviter == user_id) 
-    | (Friends.invitee == user_id)) & (Friends.accepted == 0)).all()
+    | (Friends.invitee == user_id)) & (Friends.accepted == 0)).count() > 0:"""
 
-def create_group(host, date):
-	pass
+def create_group(host, name, date):
+	new_grp = Group(host=host,name=name,date=date)
+    db.session.add(new_grp)
+    db.session.flush()
+    return new_grp.id
 
 def invite_member(group, user):
 	pass

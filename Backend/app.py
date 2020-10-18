@@ -70,13 +70,20 @@ def get_group(group_id):
     except:
         return failure_response("Group not found")
 
-
 @app.route('/invites/<int:user_id>', methods=['GET'])
 def check_invites(user_id):
     try:
         return success_response(dao.get_invites(user_id))
     except:
         return failure_response("Group not found")
+
+@app.route('restaurants/<int:rest_id>', methods=['GET'])
+def get_restaurant(rest_id):
+    rest_info = dao.get_restaurant(rest_id)
+    if rest_info is None:
+        failure_response(rest_info)
+    else:
+        success_response(rest_info)
 
 @app.route('/users/', methods=['POST'])
 def new_user():
@@ -120,9 +127,9 @@ def create_group():
     group_name = data["name"]
     date = data["date"]
     try:
-        return success_response(dao.create_group(host, date))
+        return success_response(dao.create_group(host, group_name, date))
     except:
-        return failure_response("Please try again")
+        return failure_response("Please try again.")
 
 @app.route('/groups/', methods=['POST'])
 def invite_member():

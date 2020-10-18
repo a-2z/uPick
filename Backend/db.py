@@ -10,9 +10,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, nullable=False, unique = True)
     hash_pw = db.Column(db.String, nullable=False)
+    
     def serialize_user(self):
         return {"id": self.id, "username": self.user, "hash": self.hash_pw}
-        
 
 
 class Friends(db.Model):
@@ -22,11 +22,13 @@ class Friends(db.Model):
     invitee = db.Column(db.Integer, nullable=False)
     #Accepted = 0
     accepted = db.Column(db.Integer, nullable=False, default = 0)
+
     def serialize_friendship(self):
         return {"id": self.id, 
         "f1": self.inviter, 
         "f2": self.invitee, 
         "accepted": self.accepted}
+
 
 class Restaurants(db.Model):
     __tablename__ = "restaurants"
@@ -43,18 +45,35 @@ class Restaurants(db.Model):
     # locations are geographic coordinates
     loc_x = db.Column(db.Integer, nullable=False)
     loc_y = db.Column(db.Integer, nullable=False)
+
     def serialize_rest(self):
-        return{"id": self.id, "name"}
+        return{"id": self.id, 
+            "name": self.name,
+            "price": self.price,
+            "image": self.image,
+            "rating": self.rating,
+            "description": self.description,
+            "wait_time": self.wait_time,
+            "phone": self.phone,
+            "location_x": self.loc_x,
+            "location_y": self.loc_y}
+
 
 class Tags(db.Model):
     __tablename__ = "tags"
-    __table_args__ = (db.UniqueConstraint(category, name, tag),)
+    __table_args__ = (db.UniqueConstraint('category', 'name', 'tag'),)
     """Tags for categories of food, shared in survey and by restaurants"""
     id = db.Column(db.Integer, primary_key=True)
     # Category is res for restaurants and grp for groups
     category = db.Column(db.String, nullable=False, default="res")
     name = db.Column(db.Integer, nullable=False)
     tag = db.Column(db.Integer, nullable=False)
+
+    def serialize_tag(self):
+        return {"id": self.id, 
+        "category": self.category, 
+        "name": self.name,
+        "tag": self.tag}
 
 
 """
@@ -72,10 +91,11 @@ class Restrictions(db.Model):
     name = db.Column(db.String, nullable=False)
     ingr_id = db.Column(db.Integer, nullable=False)"""
 
+
 #Groups
 class Group(db.Model):
     __tablename__ = "groups"
-    group_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     host = db.Column(db.String, nullable = False)
     name = db.Column(db.String, nullable = False)
     date = db.Column(db.String, nullable=False)
@@ -84,7 +104,18 @@ class Group(db.Model):
     #distance in miles
     tot_dist = db.Column(db.Integer, nullable=False, default=0)
     tot_time = db.Column(db.Integer, nullable=False, default=0)
-    pick = db.Column(db.String, nullable=False, default="none")
+    pick = db.Column(db.Integer, nullable=True)
+
+    def serialize_group(self):
+        return {"group_id":self.id,
+        "date": self.date,
+        "host": self.host,
+        "name": self.name,
+        "members": self.members,
+        "survey_complete": False,
+        "top_choices": [],
+        "voting_complete": False,
+        "final_choice": pick}
 
 class GroupMembers(db.Model):
     __tablename__ = "invitations"
@@ -94,6 +125,12 @@ class GroupMembers(db.Model):
     accepted = db.Column(db.Integer, nullable=False, default=0)
     ready = db.Column(db.Integer, nullable=False, default=1)
 
+    def serialize_group_mem(self):
+        return {"id": self.id, 
+        "user": self.user, 
+        "group": self.group, 
+        "accepted": bool(self.accepted)},
+
 # Voting
 class TopChoices(db.Model):
     __tablename__ = "top_choices"
@@ -102,6 +139,12 @@ class TopChoices(db.Model):
     res = db.Column(db.Integer, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
 
+    def serialize_top(self):
+        return {"id": self.id,
+        "group": self.group,
+        "res": self.res,
+        "rating": self.rating}
+
 class BordaVote(db.Model):
     __tablename__ = "borda_vote"
     id = db.Column(db.Integer, primary_key=True)
@@ -109,3 +152,8 @@ class BordaVote(db.Model):
     # Ranking from 0-4, with 0 being most preferred and 4 the least
     rank = db.Column(db.Integer, nullable=False)
     restaurant = db.Column(db.Integer, nullable=False)
+    def serialize_borda(self):
+        return {"id": self.id, 
+        "group": self.group, 
+        "rank": self.rank,
+        "restaurant": self.restaurant}
