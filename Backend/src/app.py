@@ -102,7 +102,7 @@ def login():
     pwd = data["pwd"]
     try:
         if compare_pw(pwd, dao.authenticate(usr,pwd)):
-            return success_response("You are logged in.")
+            return success_response(usr)
         else:
             return failure_response("Invalid username password combination.")
     except:
