@@ -112,7 +112,7 @@ object MainRepository {
     }
 
     suspend fun postSurvey(
-        user: Int,
+        group: Int,
         locationX: Float,
         locationY: Float,
         price: Int,
@@ -121,7 +121,7 @@ object MainRepository {
         preferences: List<Int>
     ): SurveyPOSTResponse {
         val body = SurveyPOSTBody(
-            user = user,
+            group = group,
             locationX = locationX,
             locationY = locationY,
             price = price,
@@ -138,8 +138,8 @@ object MainRepository {
         }
     }
 
-    suspend fun postVote(restaurants: List<Int>): VotePOSTResponse {
-        val body = VotePOSTBody(restaurants = restaurants)
+    suspend fun postVote(group: Int, restaurants: List<Int>): VotePOSTResponse {
+        val body = VotePOSTBody(group = group, restaurants = restaurants)
         return withContext(Dispatchers.IO) {
             try {
                 Backend.retrofitService.postVote(body)

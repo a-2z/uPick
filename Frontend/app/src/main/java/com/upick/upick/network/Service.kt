@@ -93,7 +93,7 @@ data class UserGroupBody(
 
 @JsonClass(generateAdapter = true)
 data class SurveyPOSTBody(
-    val user: Int,
+    val group: Int,
     @Json(name = "location_x") val locationX: Float,
     @Json(name = "location_y") val locationY: Float,
     val price: Int,
@@ -104,5 +104,6 @@ data class SurveyPOSTBody(
 
 @JsonClass(generateAdapter = true)
 data class VotePOSTBody(
+    val group: Int,
     val restaurants: List<Int>
 )

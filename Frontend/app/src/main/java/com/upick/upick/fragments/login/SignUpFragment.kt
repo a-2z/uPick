@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.upick.upick.R
+import com.upick.upick.activities.Keys
+import com.upick.upick.activities.MainActivity
 import com.upick.upick.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -26,7 +29,15 @@ class SignUpFragment : Fragment() {
         binding.firstButton.apply {
             text = "SIGN UP OK >> DASHBOARD"
             setOnClickListener {
-                findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToDashboardFragment())
+                (requireActivity() as MainActivity).sharedPreferences
+                    .edit()
+                    .putBoolean(Keys.LOGGED_IN, false)
+                    .commit()
+                findNavController().apply {
+                    if (currentDestination?.id == R.id.signUpFragment) {
+                        navigate(SignUpFragmentDirections.actionSignUpFragmentToDashboardFragment())
+                    }
+                }
             }
         }
         // Do the rest of fragment preparation here.

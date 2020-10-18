@@ -1,28 +1,36 @@
 package com.upick.upick.activities
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.upick.upick.NavGraphDirections
 import com.upick.upick.R
 import com.upick.upick.databinding.ActivityMainBinding
 
+class Keys private constructor() {
+    companion object {
+        const val LOGGED_IN = "logged_in"
+    }
+}
+
 class MainActivity : AppCompatActivity() {
 
-    private val mainActivityViewModel: MainActivityViewModel by viewModels()
-
+    internal lateinit var sharedPreferences: SharedPreferences
     internal lateinit var mainActivityBinding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
         mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
 
         setTheme(R.style.AppTheme_NoActionBar)  // To remove splash
@@ -40,8 +48,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainActivityViewModel.counter.observe(this) {
-            Toast.makeText(this, "Counter changed to $it", Toast.LENGTH_SHORT).show()
+//        mainActivityViewModel.counter.observe(this) {
+//            Toast.makeText(this, "Counter changed to $it", Toast.LENGTH_SHORT).show()
+//        }
+
+        // Detect logouts and force exit to login screen
+        sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            val newValue = sharedPreferences.all[key]
+            Log.d("temp", "$key got changed to $newValue")
+            when (key) {
+                Keys.LOGGED_IN -> {
+                    if (!(newValue as Boolean)) {
+                        navController.navigate(NavGraphDirections.actionGlobalLoginFragment())
+                    }
+                }
+            }
         }
 
 
