@@ -47,33 +47,33 @@ def ju(jason):
 
 # Routes go here
 @app.route('/users/<int:user_id>', methods=['GET'])
-def get_user(user):
+def get_user(user_id):
     try:
-        return success_response(dao.get_user(user))
+        return success_response(dao.get_user(user_id))
     except:
         return failure_response("Please try again.")
 
 
 @app.route('/pending/<int:user_id>', methods=['GET'])
-def get_pending(user):
+def get_pending(user_id):
     try:
-        return success_response(dao.get_pending(user))
+        return success_response(dao.get_pending(user_id))
     except:
         return failure_response("User not found.")
 
 
 @app.route('/groups/<int:group_id>', methods=['GET'])
-def get_group(group):
+def get_group(group_id):
     try:
-        return success_response(dao.get_group(group))
+        return success_response(dao.get_group(group_id))
     except:
         return failure_response("Group not found")
 
 
 @app.route('/invites/<int:user_id>', methods=['GET'])
-def check_invites(user):
+def check_invites(user_id):
     try:
-        return success_response(dao.get_invites(user))
+        return success_response(dao.get_invites(user_id))
     except:
         return failure_response("Group not found")
 

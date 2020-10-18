@@ -40,7 +40,7 @@ def create_user(user, hash):
         new_user = User(user = user, hash_pw = hash)
         db.session.add(new_user)
         db.session.commit()
-        return user
+        return User.query.filter_by(user=user).first().serialize_user()["id"]
     except:
         raise UserExists(user)
 
