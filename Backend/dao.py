@@ -26,6 +26,7 @@ def get_user_name(user):
 
 
 def get_pending(user):
+    """Get sent or recieved friend requests that are not accepted"""
     pass
 
 def get_group(group):
