@@ -121,7 +121,7 @@
 			doc for the actual values submitted vs the labels the user sees.
 		</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"user": int,<br>
+		<h4>In: {"group": int,<br>
 			"location_x": float,<br>
 			"location_y": float,<br>
 			"price": int,<br>
@@ -135,7 +135,7 @@
 		<h1>Route: /vote/</h1>
 		<h2>Description: Place ranked votes</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"restaurants": [r1,r2,...] (int list)}</h4>
+		<h4>In: {"group": int, "restaurants": [r1,r2,...] (int list)}</h4>
 		<h4>Out: {"success": bool, "data": "Vote submitted."} </h4>
 	</div>
 	<div style="background-color: grey;">

@@ -1,5 +1,7 @@
 from db import *
 from exceptions import *
+from math import sqrt
+from consts import NUM_CHOICES
 
 """Database interaction methods"""
 
@@ -37,28 +39,57 @@ def get_pending(user_id):
     return {"sent": sent, "received": received}
 
 def get_group(group):
-    grp = Group.query.filter_by(id=group).first().serialize_group()
+    group_row = Group.query.filter_by(id=group).first()
+    grp = group_row.serialize_group()
     mem = []
     for m in GroupMembers.filter_by(group=group,accepted=1).all():
         mem.append(m.serialize_group_mem()["user"])
     grp["members"] = mem
     num_ready = GroupMembers.filter_by(group=group,ready=1).count()
-    if num_ready == len(mem):
-        filter_restaurants(group)
-
+    if num_ready == len(mem) and not grp["survey_complete"]:
+        grp["survey_complete"] = True
+        tc = filter_restaurants(group)
+        for t in tc:
+            choice = TopChoices(group=t["group"],res=t["res"],rating=t["rating"])
+            db.session.add(choice)
+            db.session.commit()
+    #Compute voting 
+    votes = BordaVote.query.filter_by(group=group).all()
+    if len(mem)*NUM_CHOICES == len(votes) and not grp["voting_complete"]:
+        grp["voting_complete"] = True
+        tally = {}
+        for v in votes:
+            res_str = str(v.restaurant)
+            if res_str not in tally.keys():
+                tally[res_str] = v.rank
+            else:
+                tally[res_str] += v.rank 
+        grp["final_choice"] = int(next(key for key, value in d.iteritems() 
+        if value == max(tally.values())))
+        group_row.pick = grp["final_choice"]
+        db.session.commit()
+    return grp
+        
 def filter_restaurants(group):
     aggregate_prefs = Group.query.filter_by(id=group).first().serialize_internal()
-    Restaurants.query.filter(
+    group_tags = []
+    for t in Tags.query.filter_by(category="grp",name=group).all():
+        group_tags.append (t.tag)
+    top = []
+    for r in Restaurants.query.filter(
         (Restaurants.price <= aggregate_prefs["price"]) &
         (Restaurants.wait_time <= aggregate_prefs["time"]) &
-        (Restaurants.wait_time <= aggregate_prefs["time"]) &
-        
-        )
-
-
-    
-
-
+        #check location is within radius of center
+        (
+            sqrt((aggregate_prefs["ctr_x"] - Restaurants.loc_x)**2 + 
+            (aggregate_prefs["ctr_y"] - Restaurants.loc_y)**2) <= 
+            aggregate_prefs["dist"]) &
+        #check that at least one tag is present
+        (any(map(lambda x: x.tag in group_tags,
+        Tags.query.filter_by(category="res", name=Restaurants.id).all()))
+        )).order_by(desc(Restaurants.rating)).limit(NUM_CHOICES).all():
+        top.append({"group":group, "res": r.id, "rating": r.rating})
+    return top
 
 def get_invites(user):
     invs = GroupMembers.query.filter_by(user=user,accepted=0).all()
@@ -100,13 +131,16 @@ def create_group(host, name, date):
     return new_grp.id
 
 def invite_member(group, user):
-	pass
+	db.session.add(GroupMembers(user=user,group=group))
+    db.session.commit()
 
 def join_group(group, user):
-	pass
+	g = GroupMembers.query.filter_by(user=user,group=group,accepted=0)
+    g.accepted = 1
+    db.session.commit()
 
 def submit_survey(loc_x, loc_y, price, dist, time, tags):
-	pass
+	Group.query.filter_by()
 
 def place_vote(user, restaurants):
 	pass

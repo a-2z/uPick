@@ -45,7 +45,6 @@ def ju(jason):
     """Unpacks jsons"""
     return json.loads(jason)
 
-
 # Routes go here
 @app.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
@@ -54,14 +53,12 @@ def get_user(user_id):
     except UserNotFound as e:
         return failure_response("Please try again.")
 
-
 @app.route('/pending/<int:user_id>', methods=['GET'])
 def get_pending(user_id):
     try:
         return success_response(dao.get_pending(user_id))
     except:
         return failure_response("User not found.")
-
 
 @app.route('/groups/<int:group_id>', methods=['GET'])
 def get_group(group_id):
@@ -154,6 +151,7 @@ def join_group():
 @app.route('/survey/',methods=['POST'])
 def submit_survey():
     data = ju(request.data)
+    group = data["group"]
     loc_x = data["location_x"]
     loc_y = data["location_y"]
     price = data["price"]
@@ -161,7 +159,9 @@ def submit_survey():
     time = data["time"]
     tags = data["preferences"]
     try:
-        return success_response(dao.submit_survey(loc_x,
+        return success_response(dao.submit_survey(
+        group,
+        loc_x,
         loc_y,
         price,
         dist,
@@ -173,10 +173,10 @@ def submit_survey():
 @app.route('/vote/',methods=['POST'])
 def place_vote():
     data = ju(request.data)
-    user = data["user"]
+    group = data["group"]
     restaurants = data["restaurants"]
     try:
-        return success_response(dao.place_vote(user,restaurants))
+        return success_response(dao.place_vote(group,restaurants))
     except:
         return failure_response("Vote failed or group does not exist")
 
