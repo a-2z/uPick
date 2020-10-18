@@ -1,1 +1,0 @@
-NUM_CHOICES = 3
