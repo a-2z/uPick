@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startUpFragment">
+
+    <fragment
+        android:id="@+id/DashboardFragment"
+        android:name="com.upick.upick.fragments.DashboardFragment"
+        android:label="uPick"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_DashboardFragment_to_hostSurveyFragment"
+            app:destination="@id/createGroupFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_DashboardFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.upick.upick.fragments.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.upick.upick.fragments.login.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_signUpFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/startUpFragment"
+        android:name="com.upick.upick.fragments.login.StartUpFragment"
+        android:label="StartUpFragment"
+        tools:layout="@layout/fragment_start_up">
+        <action
+            android:id="@+id/action_startUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_startUpFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGroupFragment"
+        android:name="com.upick.upick.fragments.groupformation.CreateGroupFragment"
+        android:label="Select Date and Time..."
+        tools:layout="@layout/fragment_create_group">
+        <action
+            android:id="@+id/action_createGroupFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment"
+            app:popUpTo="@id/createGroupFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="com.upick.upick.fragments.groupformation.SurveyFragment"
+        android:label="Quick Survey!"
+        tools:layout="@layout/fragment_survey">
+        <action
+            android:id="@+id/action_surveyFragment_to_groupLobbyFragment"
+            app:destination="@id/groupLobbyFragment"
+            app:popUpTo="@id/surveyFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupLobbyFragment"
+        android:name="com.upick.upick.fragments.groupformation.GroupLobbyFragment"
+        tools:layout="@layout/fragment_group_lobby">
+        <action
+            android:id="@+id/action_groupLobbyFragment_to_restaurantsLoadingFragment"
+            app:destination="@id/restaurantsLoadingFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantsLoadingFragment"
+        android:name="com.upick.upick.fragments.groupformed.RestaurantsLoadingFragment"
+        tools:layout="@layout/fragment_restaurants_loading">
+        <action
+            android:id="@+id/action_restaurantsLoadingFragment_to_voteFragment"
+            app:destination="@id/voteFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/voteFragment"
+        android:name="com.upick.upick.fragments.groupformed.VoteFragment"
+        tools:layout="@layout/fragment_vote">
+        <action
+            android:id="@+id/action_voteFragment_to_waitingAfterVoteFragment"
+            app:destination="@id/waitingAfterVoteFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitingAfterVoteFragment"
+        android:name="com.upick.upick.fragments.groupformed.WaitingAfterVoteFragment"
+        tools:layout="@layout/fragment_waiting_after_vote">
+        <action
+            android:id="@+id/action_waitingAfterVoteFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.upick.upick.fragments.groupformed.ResultFragment"
+        tools:layout="@layout/fragment_result" />
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.upick.upick.fragments.FriendsFragment"
+        android:label="FriendsFragment"
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFragment_to_surveyFragment"
+            app:destination="@id/surveyFragment" />
+        <action
+            android:id="@+id/action_friendsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.upick.upick.fragments.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_deleteUserFragment"
+            app:destination="@id/deleteUserFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/deleteUserFragment"
+        android:name="com.upick.upick.DeleteUserFragment"
+        android:label="DeleteUserFragment"
+        tools:layout="@layout/fragment_delete_user" />
+</navigation>
