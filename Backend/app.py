@@ -62,6 +62,7 @@ def get_pending(user_id):
 
 @app.route('/groups/<int:group_id>', methods=['GET'])
 def get_group(group_id):
+    return success_response(dao.get_group(group_id))
     try:
         return success_response(dao.get_group(group_id))
     except:
@@ -74,13 +75,13 @@ def check_invites(user_id):
     except:
         return failure_response("Group not found")
 
-@app.route('restaurants/<int:rest_id>', methods=['GET'])
+@app.route('/restaurants/<int:rest_id>', methods=['GET'])
 def get_restaurant(rest_id):
     rest_info = dao.get_restaurant(rest_id)
     if rest_info is None:
-        failure_response(rest_info)
+        return failure_response(rest_info)
     else:
-        success_response(rest_info)
+        return success_response(rest_info)
 
 @app.route('/users/', methods=['POST'])
 def new_user():

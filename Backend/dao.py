@@ -42,11 +42,11 @@ def get_group(group):
     group_row = Group.query.filter_by(id=group).first()
     grp = group_row.serialize_group()
     mem = []
-    for m in GroupMembers.filter_by(group=group,accepted=1).all():
+    for m in GroupMembers.query.filter_by(group=group,accepted=1).all():
         mem.append(m.serialize_group_mem()["user"])
     grp["members"] = mem
-    num_ready = GroupMembers.filter_by(group=group,ready=1).count()
-    if num_ready == len(mem) and not grp["survey_complete"]:
+    num_ready = GroupMembers.query.filter_by(group=group,ready=1).count()
+    if num_ready == len(mem) and not grp["survey_complete"] and not num_ready == 0:
         grp["survey_complete"] = True
         tc = filter_restaurants(group)
         for t in tc:
@@ -55,7 +55,7 @@ def get_group(group):
             db.session.commit()
     #Compute voting 
     votes = BordaVote.query.filter_by(group=group).all()
-    if len(mem)*NUM_CHOICES == len(votes) and not grp["voting_complete"]:
+    if len(mem)*NUM_CHOICES == len(votes) and grp["survey_complete"] and not grp["voting_complete"]:
         grp["voting_complete"] = True
         tally = {}
         for v in votes:
@@ -99,6 +99,7 @@ def get_invites(user):
     return {"invitations": invitations}
     
 def get_restaurant(rest_id):
+    print(Restaurants.query.filter_by(id=rest_id).first().serialize_rest())
     return Restaurants.query.filter_by(id=rest_id).first().serialize_rest()
 
 def create_user(user, hash):
@@ -122,11 +123,11 @@ def authenticate(user, password):
 
 def add_friend(f1, f2):
     friendship = Friends(inviter=f1, invitee=f2)
-    f_ship = Friends.query.filter_by(
-        (((Restaurants.inviter = f1) & Restaurants.invitee == f2) & 
-        (accepted == 0)) |
-        (((Restaurants.inviter = f2) & Restaurants.invitee == f1) & 
-        (accepted == 0))).first()
+    f_ship = Friends.query.filter(
+        (((Friends.inviter == f1) & Friends.invitee == f2) & 
+        (Friends.accepted == 0)) |
+        (((Friends.inviter == f2) & Friends.invitee == f1) & 
+        (Friends.accepted == 0))).first()
     if f_ship is None:
         db.session.add(friendship)
     else:
@@ -134,24 +135,26 @@ def add_friend(f1, f2):
     db.session.commit()
 
 def create_group(host, name, date):
-	new_grp = Group(host=host,name=name,date=date)
+    new_grp = Group(host=host,name=name,date=date)
     db.session.add(new_grp)
-    db.session.flush()
+    db.session.commit()
     return new_grp.id
 
 def invite_member(group, user):
-	db.session.add(GroupMembers(user=user,group=group))
+    db.session.add(GroupMembers(user=user,group=group))
     db.session.commit()
     return user
 
 def join_group(group, user):
-	g = GroupMembers.query.filter_by(user=user,group=group,accepted=0)
+    g = GroupMembers.query.filter_by(user=user,group=group,accepted=0).first()
+    grp = Group.query.filter_by(id=group).first()
+    grp.num_members += 1
     g.accepted = 1
     db.session.commit()
     return group
 
 def submit_survey(group, loc_x, loc_y, price, dist, time, tags):
-	g = Group.query.filter_by(group=group).first()
+    g = Group.query.filter_by(group=group).first()
     g.tot_x += loc_x
     g.tot_y += loc_y
     g.tot_price += price
@@ -167,7 +170,7 @@ def submit_survey(group, loc_x, loc_y, price, dist, time, tags):
     return "Responses submitted"
 
 def place_vote(group, restaurants):
-	for i in range(len(restaurants) - 1):
+    for i in range(len(restaurants) - 1):
         v = BordaVote(group=group,rank=i,restaurant=restaurants[i])
         db.session.add(v)
     db.session.commit()
@@ -175,7 +178,7 @@ def place_vote(group, restaurants):
 
 def leave_group(user, group):
     g = Group.query.filter_by(group=group).first()
-	if g.host == user:
+    if g.host == user:
         db.session.delete(g)
     else:
         gm = GroupMembers.query.filter_by(user=user)
@@ -183,7 +186,7 @@ def leave_group(user, group):
     db.session.commit()
 
 def delete_user(user):
-	usr = User.query.filter_by(id=user).first()
+    usr = User.query.filter_by(id=user).first()
     db.session.delete(usr)
     f_ships = Friends.query.filter((Friends.inviter == usr) | 
     (Friends.invitee == usr)).all()
@@ -195,13 +198,13 @@ def delete_user(user):
     db.session.commit()
     return 
 
-def make_restaurant(name, price, image, rating, description, wait, phone, 
-                    loc_x, loc_y):
-	res = Restaurants(name=name, price=price, image=image, rating=rating, 
-                        description=description, wait_time=wait, 
-                        phone=phone, loc_x=loc_x, loc_y=loc_y)
+def make_restaurant(name, price, image, rating, description, wait, phone, loc_x, loc_y):
+    res = Restaurants(name=name, price=price, image=image, rating=rating, 
+    description=description, wait_time=wait, phone=phone, loc_x=loc_x, 
+    loc_y=loc_y)
     db.session.add(res)
     db.session.commit()
+    return res.id
 
 def add_res_tags(res_id, tags):
     for t in tags:

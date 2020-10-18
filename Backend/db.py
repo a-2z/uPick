@@ -99,7 +99,7 @@ class Group(db.Model):
     host = db.Column(db.Integer, nullable = False)
     name = db.Column(db.String, nullable = False)
     date = db.Column(db.String, nullable=False)
-    num_members = db.Column(db.Integer, default=1)
+    num_members = db.Column(db.Integer, default=0)
     tot_x = db.Column(db.Float, default=0)
     tot_y = db.Column(db.Float, default=0)
     tot_price = db.Column(db.Integer, nullable=False, default=0)
@@ -117,7 +117,7 @@ class Group(db.Model):
         "survey_complete": False,
         "top_choices": [],
         "voting_complete": False,
-        "final_choice": pick}
+        "final_choice": self.pick}
     
     def serialize_internal(self):
         return {"group_id": self.id,
@@ -142,7 +142,7 @@ class GroupMembers(db.Model):
         return {"id": self.id, 
         "user": self.user, 
         "group": self.group, 
-        "accepted": bool(self.accepted)},
+        "accepted": bool(self.accepted)}
 
 # Voting
 class TopChoices(db.Model):
