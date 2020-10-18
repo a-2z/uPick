@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.upick.upick.R
 import com.upick.upick.activities.Keys
 import com.upick.upick.activities.MainActivity
+import com.upick.upick.activities.MainRepository
 import com.upick.upick.databinding.FragmentLoginBinding
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -29,14 +33,28 @@ class LoginFragment : Fragment() {
         binding.firstButton.apply {
             text = "Login >> Dashboard"
             setOnClickListener {
-                (requireActivity() as MainActivity).sharedPreferences
-                    .edit()
-                    .putBoolean(Keys.LOGGED_IN, true)
-                    .commit()
-                findNavController().apply {
-                    if (currentDestination?.id == R.id.loginFragment) {
-                        navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
+                lifecycleScope.launch {
+                    val username = binding.usernameEditText.text.toString()
+                    val password = binding.passwordEditText.text.toString()
+                    val response = MainRepository.postSignIn(username, password)
+                    if (response.success || true) {
+                        (requireActivity() as MainActivity).sharedPreferences
+                            .edit()
+                            .putBoolean(Keys.LOGGED_IN, true)
+                            .commit()
+                        findNavController().apply {
+                            if (currentDestination?.id == R.id.loginFragment) {
+                                navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
+                            }
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Login failed. Please try again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                 }
             }
         }

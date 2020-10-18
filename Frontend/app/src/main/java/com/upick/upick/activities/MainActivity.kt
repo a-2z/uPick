@@ -3,7 +3,6 @@ package com.upick.upick.activities
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.upick.upick.NavGraphDirections
 import com.upick.upick.R
 import com.upick.upick.databinding.ActivityMainBinding
 
@@ -48,24 +46,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        mainActivityViewModel.counter.observe(this) {
-//            Toast.makeText(this, "Counter changed to $it", Toast.LENGTH_SHORT).show()
-//        }
-
-        // Detect logouts and force exit to login screen
-        sharedPreferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
-            val newValue = sharedPreferences.all[key]
-            Log.d("temp", "$key got changed to $newValue")
-            when (key) {
-                Keys.LOGGED_IN -> {
-                    if (!(newValue as Boolean)) {
-                        navController.navigate(NavGraphDirections.actionGlobalLoginFragment())
-                    }
-                }
-            }
-        }
-
-
 //        binding.fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
@@ -75,21 +55,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-// For options menu
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        return when (item.itemId) {
-//            R.id.action_settings -> true
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
 }
