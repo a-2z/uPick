@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.upick.upick.databinding.FragmentRestaurantsLoadingBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,6 +16,7 @@ import kotlinx.coroutines.launch
 class RestaurantsLoadingFragment : Fragment() {
 
     private lateinit var binding: FragmentRestaurantsLoadingBinding
+    private val args: RestaurantsLoadingFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,14 +31,22 @@ class RestaurantsLoadingFragment : Fragment() {
         binding.mainTextView.text = "Loading your favourite restaurants!"
         val loadingDone = false
         if (loadingDone) {
-            findNavController().navigate(RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment())
+            findNavController().navigate(
+                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment(
+                    groupId = args.groupId
+                )
+            )
         }
 
         // The following uses CoRoutines to generate a 1s delay. It's just a placeholder for the
         // actual HTTP requests
         lifecycleScope.launch {
             delay(1000L)
-            findNavController().navigate(RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment())
+            findNavController().navigate(
+                RestaurantsLoadingFragmentDirections.actionRestaurantsLoadingFragmentToSortingFragment(
+                    groupId = args.groupId
+                )
+            )
         }
     }
 }

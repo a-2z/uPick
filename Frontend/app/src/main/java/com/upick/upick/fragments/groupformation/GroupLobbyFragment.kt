@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.upick.upick.activities.MainActivity
 import com.upick.upick.databinding.FragmentGroupLobbyBinding
 
 class GroupLobbyFragment : Fragment() {
 
     private lateinit var binding: FragmentGroupLobbyBinding
+    private val args: GroupLobbyFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +33,11 @@ class GroupLobbyFragment : Fragment() {
         binding.firstButton.apply {
             text = "HOST: READY >> LOAD RESTAURANTS"
             setOnClickListener {
-                findNavController().navigate(GroupLobbyFragmentDirections.actionGroupLobbyFragmentToRestaurantsLoadingFragment())
+                findNavController().navigate(
+                    GroupLobbyFragmentDirections.actionGroupLobbyFragmentToRestaurantsLoadingFragment(
+                        groupId = args.groupId
+                    )
+                )
             }
         }
     }

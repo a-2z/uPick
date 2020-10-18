@@ -93,6 +93,9 @@
         <action
             android:id="@+id/action_groupLobbyFragment_to_restaurantsLoadingFragment"
             app:destination="@id/restaurantsLoadingFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/restaurantsLoadingFragment"
@@ -101,6 +104,9 @@
         <action
             android:id="@+id/action_restaurantsLoadingFragment_to_sortingFragment"
             app:destination="@id/sortingFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/sortingFragment"
@@ -109,6 +115,9 @@
         <action
             android:id="@+id/action_sortingFragment_to_waitingAfterSortingFragment"
             app:destination="@id/waitingAfterSortingFragment" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/waitingAfterSortingFragment"

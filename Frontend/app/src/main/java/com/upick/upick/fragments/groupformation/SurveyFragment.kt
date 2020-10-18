@@ -32,12 +32,6 @@ class SurveyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Snackbar.make(
-            binding.root,
-            "You came here with groupId ${args.groupId}",
-            Snackbar.LENGTH_LONG
-        ).show()
-
         binding.apply {
             firstTextView.text = "Distance"
             secondTextView.text = "Wait Time"
@@ -75,7 +69,11 @@ class SurveyFragment : Fragment() {
                     if (response.success) {
                         findNavController().apply {
                             if (currentDestination?.id == R.id.surveyFragment) {
-                                navigate(SurveyFragmentDirections.actionSurveyFragmentToGroupLobbyFragment())
+                                navigate(
+                                    SurveyFragmentDirections.actionSurveyFragmentToGroupLobbyFragment(
+                                        groupId = args.groupId
+                                    )
+                                )
                             }
                         }
                     } else {
