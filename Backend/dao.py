@@ -37,11 +37,36 @@ def get_pending(user_id):
     return {"sent": sent, "received": received}
 
 def get_group(group):
-    pass
+    grp = Group.query.filter_by(id=group).first().serialize_group()
+    mem = []
+    for m in GroupMembers.filter_by(group=group,accepted=1).all():
+        mem.append(m.serialize_group_mem()["user"])
+    grp["members"] = mem
+    num_ready = GroupMembers.filter_by(group=group,ready=1).count()
+    if num_ready == len(mem):
+        filter_restaurants(group)
+
+def filter_restaurants(group):
+    aggregate_prefs = Group.query.filter_by(id=group).first().serialize_internal()
+    Restaurants.query.filter(
+        (Restaurants.price <= aggregate_prefs["price"]) &
+        (Restaurants.wait_time <= aggregate_prefs["time"]) &
+        (Restaurants.wait_time <= aggregate_prefs["time"]) &
+        
+        )
+
+
+    
+
+
 
 def get_invites(user):
-    pass
-
+    invs = GroupMembers.query.filter_by(user=user,accepted=0).all()
+    invitations = []
+    for i in invs:
+        invitations.append(i.serialize_group_mem()["group"])
+    return {"invitations": invitations}
+    
 def get_restaurant(rest_id):
     return Restaurants.query.filter_by(id=rest_id).first().serialize_rest()
 

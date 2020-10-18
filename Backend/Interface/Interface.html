@@ -39,7 +39,7 @@
 			"data": {
 			"group_id" : int,<br>
 			"date": str,<br>
-			"host": str, <br>
+			"host": int, <br>
 			"name": str, <br>
 			"members": [usr1,usr2,...] (int list),<br>
 			"survey_complete": bool,<br>
@@ -110,15 +110,7 @@
 			a group.
 		</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"group": int, "user": string}</h4>
-		<h4>Out: {"success": bool, "data": user}</h4>
-	</div>
-	<div style="background-color: grey;">
-		<h1>Route: /groups/join/</h1>
-		<h2>Description: Join a group if invite exists
-		</h2>
-		<h3>Method Type: POST</h3>
-		<h4>In: {"group": int, "user": string}</h4>
+		<h4>In: {"group": int, "user": int}</h4>
 		<h4>Out: {"success": bool, "data": user}</h4>
 	</div>
 	<div style="background-color: grey;">
@@ -129,7 +121,7 @@
 			doc for the actual values submitted vs the labels the user sees.
 		</h2>
 		<h3>Method Type: POST</h3>
-		<h4>In: {"user": str,<br>
+		<h4>In: {"user": int,<br>
 			"location_x": float,<br>
 			"location_y": float,<br>
 			"price": int,<br>
@@ -166,7 +158,7 @@
 		<h2>Description: Delete a user from the database.</h2>
 		<h3>Method Type: DELETE</h3>
 		<h4>In: {"user": str, "pwd": str,}</h4>
-		<h4>Out: {"success": bool, "data": "You left the group."} </h4>
+		<h4>Out: {"success": bool, "data": user} </h4>
 	</div>
 
 	<!-- Template

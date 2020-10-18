@@ -10,7 +10,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String, nullable=False, unique = True)
     hash_pw = db.Column(db.String, nullable=False)
-    
+
     def serialize_user(self):
         return {"id": self.id, "username": self.user, "hash": self.hash_pw}
 
@@ -100,6 +100,8 @@ class Group(db.Model):
     name = db.Column(db.String, nullable = False)
     date = db.Column(db.String, nullable=False)
     num_members = db.Column(db.Integer, default=1)
+    tot_x = db.Column(db.Float, default=0)
+    tot_y = db.Column(db.Float, default=0)
     tot_price = db.Column(db.Integer, nullable=False, default=0)
     #distance in miles
     tot_dist = db.Column(db.Integer, nullable=False, default=0)
@@ -111,11 +113,22 @@ class Group(db.Model):
         "date": self.date,
         "host": self.host,
         "name": self.name,
-        "members": self.members,
+        "members": [],
         "survey_complete": False,
         "top_choices": [],
         "voting_complete": False,
         "final_choice": pick}
+    
+    def serialize_internal(self):
+        return {"group_id": self.id,
+        "num_members": self.num_members,
+        "price": self.tot_price / self.num_members,
+        "dist": self.tot_dist / self.num_members,
+        "time": self.tot_time / self.num_members,
+        "ctr_x": self.tot_x / self.num_members,
+        "ctr_y": self.tot_y / self.num_members
+        }
+
 
 class GroupMembers(db.Model):
     __tablename__ = "invitations"
@@ -123,7 +136,7 @@ class GroupMembers(db.Model):
     user = db.Column(db.Integer, nullable=False)
     group = db.Column(db.Integer, nullable=False)
     accepted = db.Column(db.Integer, nullable=False, default=0)
-    ready = db.Column(db.Integer, nullable=False, default=1)
+    ready = db.Column(db.Integer, nullable=False, default=0)
 
     def serialize_group_mem(self):
         return {"id": self.id, 
