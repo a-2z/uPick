@@ -19,8 +19,7 @@ object Backend {
 
 // Named as such since this defines the API our Retrofit service creates
 interface BackendService {
-    @GET("user/{id}")
-    suspend fun getUser(@Path("id") userId: String): UsersGETResponse
+    @GET("user/{user_id}")
+    suspend fun getUser(@Path("user_id") userId: Int): UsersGETResponse
 
-    // to continue here after parsing all GET/POST queries in DTOs.kt
 }
